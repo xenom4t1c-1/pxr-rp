@@ -1,14 +1,10 @@
 /* PrimeX Reality Roleplay - scripts.js
-   Clean, organized Javascript (no libraries) for interactivity:
-   - Preloader
-   - Navbar solid on scroll
-   - Hamburger menu
-   - Particle canvas and slow parallax effect
-   - IntersectionObserver for reveal animations
-   - Animated counters
-   - Gallery lightbox
-   - FAQ accordion
-   - Back to top + year
+   Updated per your requests:
+   - Smooth scrolling with navbar offset
+   - Reveal animations toggle on enter/exit (works scrolling up & down)
+   - Connect to server uses samp:// link (set in HTML)
+   - Shop on Discord section added
+   - Other interactive pieces preserved (particles, preloader)
 */
 
 /* Helpers */
@@ -21,13 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
   window.setTimeout(() => { pre && pre.remove(); }, 700);
 
   // Set current year
-  qs('#year').textContent = new Date().getFullYear();
+  qs('#year') && (qs('#year').textContent = new Date().getFullYear());
 
   // Hero background: set CSS variable to use in CSS (for progressive enhancement)
   const hero = qs('.hero');
   if (hero && hero.dataset.heroImage) {
     hero.style.setProperty('--hero-image', `url('${hero.dataset.heroImage}')`);
-    // Also set background image on pseudo-element using inline style if needed
     hero.style.backgroundImage = `url('${hero.dataset.heroImage}')`;
   }
 
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const open = hamburger.getAttribute('data-open') === 'true';
     hamburger.setAttribute('data-open', !open);
     hamburger.setAttribute('aria-expanded', String(!open));
-    // Toggle nav visibility for mobile
     if (!open) {
       nav.style.display = 'block';
     } else {
@@ -55,14 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Smooth scroll for anchor links
+  // Smooth scroll for anchor links with offset for fixed navbar
   qsa('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const href = a.getAttribute('href');
       if (!href.startsWith('#')) return;
+      const target = document.querySelector(href);
+      if (!target) return;
       e.preventDefault();
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+
+      const navHeight = navbar ? navbar.offsetHeight : 0;
+      const rect = target.getBoundingClientRect();
+      const targetY = rect.top + window.scrollY - navHeight - 12; // small offset
+
+      window.scrollTo({ top: Math.max(0, Math.floor(targetY)), behavior: 'smooth' });
+
       // close mobile nav if open
       if (hamburger.getAttribute('data-open') === 'true') {
         hamburger.click();
@@ -75,68 +76,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Parallax subtle on mouse / scroll
   window.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 10;
-    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    const x = (e.clientX / window.innerWidth - 0.5) * 8;
+    const y = (e.clientY / window.innerHeight - 0.5) * 6;
     if (hero) hero.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   });
 
-  // IntersectionObserver for reveal animations
+  // IntersectionObserver for reveal animations (toggle visible on enter/exit)
   const ioOptions = {root: null, rootMargin: '0px', threshold:0.12};
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('visible');
       }
     });
   }, ioOptions);
 
-  qsa('.feature-card').forEach((el,i) => {
-    // stagger animation with CSS transition delay
-    el.style.transitionDelay = `${i*60}ms`;
-    revealObserver.observe(el);
-  });
+  // Observe elements that should animate (cards, why-media, etc.)
   qsa('.card').forEach(el => revealObserver.observe(el));
-  qsa('.stat-card').forEach(el => revealObserver.observe(el));
+  qsa('.why-media').forEach(el => revealObserver.observe(el));
 
-  // COUNTERS
+  // Counters and other removed sections left safe (no-op if absent)
   const counters = qsa('.stat-value');
-  const countObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        runCount(el, parseInt(el.dataset.count || '0'), 1400);
-        countObserver.unobserve(el);
-      }
-    });
-  }, {threshold:0.6});
-  counters.forEach(c => countObserver.observe(c));
+  if (counters.length) {
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          runCount(el, parseInt(el.dataset.count || '0'), 1400);
+        }
+      });
+    }, {threshold:0.6});
+    counters.forEach(c => countObserver.observe(c));
+  }
 
-  // GALLERY LIGHTBOX
-  initGalleryLightbox();
+  // Shop / Discord CTAs already link to Discord (no extra code needed)
 
-  // FAQ Accordion
-  qsa('.accordion-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      const panel = btn.nextElementSibling;
-      if (!expanded) {
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      } else {
-        panel.style.maxHeight = null;
-      }
-    });
-  });
+  // FAQ removed — remove accordion init
 
-  // Back to top button
+  // Back to top button opacity behavior
   const backToTop = qs('#backToTop');
   backToTop && window.addEventListener('scroll', () => {
     if (window.scrollY > 400) backToTop.style.opacity = '1'; else backToTop.style.opacity = '.6';
   });
 });
 
-/* ======= Animated counter ======= */
+/* ======= Animated counter (kept for future) ======= */
 function runCount(el, target, duration = 1200) {
   let start = 0;
   const startTime = performance.now();
@@ -149,50 +135,6 @@ function runCount(el, target, duration = 1200) {
   requestAnimationFrame(frame);
 }
 function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3) }
-
-/* ======= Gallery & Lightbox ======= */
-function initGalleryLightbox(){
-  const galleryImgs = qsa('.gallery-item img');
-  const lightbox = qs('#lightbox');
-  const lbImage = qs('.lb-image');
-  const closeBtn = qs('.lb-close');
-  const nextBtn = qs('.lb-next');
-  const prevBtn = qs('.lb-prev');
-  let currentIdx = 0;
-  const imgs = galleryImgs.map(i => i.dataset.full || i.src);
-
-  function open(idx){
-    currentIdx = idx;
-    lbImage.src = imgs[currentIdx];
-    lightbox.classList.add('active');
-    lightbox.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  }
-  function close(){
-    lightbox.classList.remove('active');
-    lightbox.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-  function next(){ open((currentIdx+1)%imgs.length) }
-  function prev(){ open((currentIdx-1+imgs.length)%imgs.length) }
-
-  galleryImgs.forEach((img, i) => {
-    img.addEventListener('click', () => open(i));
-  });
-  closeBtn.addEventListener('click', close);
-  nextBtn.addEventListener('click', next);
-  prevBtn.addEventListener('click', prev);
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) close();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (lightbox.classList.contains('active')) {
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
-    }
-  });
-}
 
 /* ======= PARTICLES Canvas (lightweight) ======= */
 function initParticles(canvasId){
@@ -227,7 +169,6 @@ function initParticles(canvasId){
 
   function draw(){
     ctx.clearRect(0,0,W,H);
-    // subtle gradient overlay so particles glow with accent color
     for (let p of particles){
       p.x += p.vx;
       p.y += p.vy;
@@ -239,7 +180,7 @@ function initParticles(canvasId){
       ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
       ctx.fill();
     }
-    // draw slow connecting lines for depth
+    // connecting lines
     for (let i=0;i<particles.length;i++){
       for (let j=i+1;j<particles.length;j++){
         const a = particles[i], b = particles[j];
@@ -260,10 +201,9 @@ function initParticles(canvasId){
   draw();
 }
 
-/* ======= Utility: smooth reveal on load for elements already visible ======= */
+/* ======= Utility: reveal on load for elements already visible ======= */
 window.addEventListener('load', () => {
-  // reveal items visible on load
-  qsa('.feature-card, .card, .stat-card').forEach(el => {
+  qsa('.card, .why-media').forEach(el => {
     const rect = el.getBoundingClientRect();
     if (rect.top < innerHeight - 40) el.classList.add('visible');
   });
