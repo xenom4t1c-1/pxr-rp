@@ -1,10 +1,10 @@
-/* scripts.js - interactions (cleaned up)
+/* scripts.js - interactions (cleaned up & updated)
    - Preloader
    - Navbar solid on scroll
    - Smooth anchors
    - Posters: hover & click -> color (toggle .active)
    - Particles (lightweight)
-   - Copy IP controls and toast feedback
+   - Copy IP controls and toast feedback (consistent styled buttons)
 */
 
 const qs = (s, e=document) => e.querySelector(s);

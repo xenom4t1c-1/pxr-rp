@@ -51,17 +51,38 @@
       </div>
     </section>
 
-    <!-- Welcome / Intro -->
+    <!-- Welcome / Intro (updated title) -->
     <section id="welcome" class="section container">
-      <h2 class="section-title">WELCOME TO THE STREETS</h2>
+      <h2 class="section-title">WELCOME TO PRIME X</h2>
       <p class="lead">
         PrimeX isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.
       </p>
 
+      <!-- Redesigned feature cards -->
       <div class="feature-cards" aria-hidden="false">
-        <div class="card">REALISTIC ECONOMY<br><span class="card-desc">Every dollar is earned, stolen, or invested.</span></div>
-        <div class="card">HARDCORE RP<br><span class="card-desc">Strict enforcement. No second chances.</span></div>
-        <div class="card">DYNAMIC FACTIONS<br><span class="card-desc">Player-driven turf, politics, and power.</span></div>
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">REALISTIC ECONOMY</h3>
+            <p class="card-desc">Every dollar is earned, stolen, or invested. Zero inflation. Player-owned businesses form the backbone of our city.</p>
+          </div>
+        </article>
+
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 3L18 20l-6-4-6 4 1.5-8L3 8.5 9 8 12 2z" stroke="currentColor" stroke-width="0.6" /></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">HARDCORE RP</h3>
+            <p class="card-desc">Serious enforcement and consequences — no quick respawns for your choices. Immersion-first rules and consistent staff enforcement.</p>
+          </div>
+        </article>
+
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">DYNAMIC FACTIONS</h3>
+            <p class="card-desc">Turf battles, political campaigns, and corporate buyouts — entire systems driven by players and emergent conflict.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -121,7 +142,7 @@
       </div>
     </section>
 
-    <!-- START YOUR STORY flow (single polished flow) -->
+    <!-- START YOUR STORY flow -->
     <section id="start-flow" class="section container">
       <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
 
@@ -148,7 +169,7 @@
           <div class="flow-desc">
             <h4>CONNECT & PLAY</h4>
             <p>Add our IP to your SA:MP favourites or hit Launch Game to join immediately.</p>
-            <button class="copy-ip small" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP ⧉</button>
+            <button class="copy-ip small" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
           </div>
         </div>
       </div>
@@ -169,6 +190,11 @@
       </div>
     </section>
   </main>
+
+  <!-- floating Discord CTA bottom-right -->
+  <a href="https://discord.gg/44zBvvmD46" class="floating-discord" target="_blank" rel="noopener" aria-label="Open Discord">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5c-.5-.3-1-.5-1.6-.6C16.8 3 12 3 12 3s-4.8 0-6.4.9c-.6.1-1.1.3-1.6.6-.6.3-1 1-1 1.7 0 1.6.7 3.2 2 4.3-.2.6-.3 1.2-.3 1.9 0 1.3.6 2.5 1.6 3.2 0 0-.2.1-.6.2 0 0 1.2.4 3.3.4 1.5 0 3.1-.3 4-1 .9.7 2.5 1 4 1 2.1 0 3.3-.4 3.3-.4-.4-.1-.6-.2-.6-.2 1-.7 1.6-1.9 1.6-3.2 0-.7-.1-1.3-.3-1.9 1.3-1.1 2-2.7 2-4.3 0-.7-.4-1.4-1-1.7z"/></svg>
+  </a>
 
   <!-- TOAST -->
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
