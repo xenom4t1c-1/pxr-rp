@@ -1,4 +1,4 @@
-/* scripts.js - interactions (updated)
+/* scripts.js - interactions (cleaned up)
    - Preloader
    - Navbar solid on scroll
    - Smooth anchors
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Reveal animations
+  // Reveal animations for sections & posters
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(en => {
       if (en.isIntersecting) en.target.classList.add('in'); else en.target.classList.remove('in');
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Init particles
   initParticles('particles');
 
-  // Copy IP controls (header bubble and copy buttons)
+  // Copy IP controls (copy buttons and toast)
   const toast = qs('#toast');
   const showToast = (msg='Copied!') => {
     if (!toast) return;
@@ -87,13 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ta.value = text; document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); showToast('IP copied to clipboard'); } catch (e) { showToast('Copy failed'); }
     ta.remove();
-  }
-
-  // header bubble
-  const ipBubble = qs('#ipBubble');
-  if (ipBubble) {
-    ipBubble.addEventListener('click', () => copyIP(SERVER_IP));
-    ipBubble.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyIP(SERVER_IP); } });
   }
 
   // copy-ip buttons (small & large)

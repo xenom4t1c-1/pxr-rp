@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PrimeX Reality Roleplay</title>
 
-  <!-- Fonts (Oswald for headings, Inter for body) -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,7 @@
 <body id="top" class="dark-theme">
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
 
-  <!-- NAV: minimal (logo left) + IP bubble + CTAs right -->
+  <!-- NAV: logo left + CTAs right (no IP bubble) -->
   <header id="navbar" class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="#home" aria-label="PrimeX Reality Roleplay">
@@ -22,15 +22,7 @@
       </a>
 
       <div class="nav-ctas">
-        <!-- top-right IP bubble -->
-        <div class="ip-bubble" id="ipBubble" role="button" tabindex="0" aria-label="Copy server IP">
-          <span class="ip-text">samp.pxr-rp.site:7826</span>
-          <button class="copy-icon" aria-hidden="true">⧉</button>
-        </div>
-
-        <!-- Left red: Connect -->
         <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">CONNECT</a>
-        <!-- Right grey: Discord -->
         <a class="btn btn-discord" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
       </div>
     </div>
@@ -56,8 +48,6 @@
           <a class="cta primary" href="samp://samp.pxr-rp.site:7826" aria-label="Play now / Launch game">PLAY NOW</a>
           <a class="cta outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
         </div>
-
-        <div class="hero-ip">CONNECT DIRECT — <span class="ip">samp.pxr-rp.site:7826</span></div>
       </div>
     </section>
 
@@ -127,11 +117,11 @@
           <li>SAMP 0.3.7 R4 compatible</li>
         </ul>
 
-        <a class="btn-outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">READ THE RULES</a>
+        <a class="link-readrules" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">READ THE RULES</a>
       </div>
     </section>
 
-    <!-- START YOUR STORY flow (big circles) -->
+    <!-- START YOUR STORY flow (single polished flow) -->
     <section id="start-flow" class="section container">
       <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
 
@@ -176,36 +166,6 @@
         </div>
 
         <button class="copy-ip large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
-      </div>
-    </section>
-
-    <!-- JOIN FLOW (already below, kept) -->
-    <section id="join" class="section container">
-      <h2 class="section-title">START YOUR STORY</h2>
-      <div class="flow">
-        <div class="flow-step">
-          <div class="num">1</div>
-          <div class="body"><strong>Join our Discord</strong><p>Get guides and the community.</p></div>
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="flow-step">
-          <div class="num">2</div>
-          <div class="body"><strong>Install SA:MP</strong><p>Follow the install steps from Discord.</p></div>
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="flow-step">
-          <div class="num">3</div>
-          <div class="body"><strong>Connect to Server</strong><p>Use samp.pxr-rp.site:7826 or the Connect button.</p></div>
-        </div>
-      </div>
-
-      <div class="join-buttons">
-        <a class="btn btn-connect large" href="samp://samp.pxr-rp.site:7826">CONNECT</a>
-        <a class="btn btn-discord large ghost" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
       </div>
     </section>
   </main>
