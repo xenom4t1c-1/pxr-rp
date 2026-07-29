@@ -14,7 +14,7 @@
 <body id="top" class="dark-theme">
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
 
-  <!-- NAV: minimal (logo left) + CTAs right -->
+  <!-- NAV: minimal (logo left) + IP bubble + CTAs right -->
   <header id="navbar" class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="#home" aria-label="PrimeX Reality Roleplay">
@@ -22,6 +22,12 @@
       </a>
 
       <div class="nav-ctas">
+        <!-- top-right IP bubble -->
+        <div class="ip-bubble" id="ipBubble" role="button" tabindex="0" aria-label="Copy server IP">
+          <span class="ip-text">samp.pxr-rp.site:7826</span>
+          <button class="copy-icon" aria-hidden="true">⧉</button>
+        </div>
+
         <!-- Left red: Connect -->
         <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">CONNECT</a>
         <!-- Right grey: Discord -->
@@ -47,7 +53,7 @@
         <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
 
         <div class="hero-actions">
-          <a class="cta primary" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
+          <a class="cta primary" href="samp://samp.pxr-rp.site:7826" aria-label="Play now / Launch game">PLAY NOW</a>
           <a class="cta outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
         </div>
 
@@ -62,7 +68,7 @@
         PrimeX isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.
       </p>
 
-      <div class="feature-cards">
+      <div class="feature-cards" aria-hidden="false">
         <div class="card">REALISTIC ECONOMY<br><span class="card-desc">Every dollar is earned, stolen, or invested.</span></div>
         <div class="card">HARDCORE RP<br><span class="card-desc">Strict enforcement. No second chances.</span></div>
         <div class="card">DYNAMIC FACTIONS<br><span class="card-desc">Player-driven turf, politics, and power.</span></div>
@@ -125,7 +131,55 @@
       </div>
     </section>
 
-    <!-- JOIN FLOW -->
+    <!-- START YOUR STORY flow (big circles) -->
+    <section id="start-flow" class="section container">
+      <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
+
+      <div class="start-flow">
+        <div class="flow-item">
+          <div class="circle">01</div>
+          <div class="flow-desc">
+            <h4>INSTALL GTA & SA:MP</h4>
+            <p>You need GTA San Andreas and the SA:MP 0.3.7 R4 client. Both are required to connect.</p>
+          </div>
+        </div>
+
+        <div class="flow-item center">
+          <div class="circle highlight">02</div>
+          <div class="flow-desc">
+            <h4>JOIN THE COMMUNITY</h4>
+            <p>Hop into our Discord, read the rules, meet the crew, and get oriented before you connect.</p>
+            <a class="link-cta" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD ›</a>
+          </div>
+        </div>
+
+        <div class="flow-item">
+          <div class="circle">03</div>
+          <div class="flow-desc">
+            <h4>CONNECT & PLAY</h4>
+            <p>Add our IP to your SA:MP favourites or hit Launch Game to join immediately.</p>
+            <button class="copy-ip small" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP ⧉</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECT CONNECT boxed area -->
+    <section id="direct" class="section container">
+      <div class="direct-box">
+        <div class="direct-label">DIRECT CONNECT</div>
+        <div class="direct-ip">samp.pxr-rp.site:7826</div>
+
+        <div class="direct-actions">
+          <a class="btn big-launch" href="samp://samp.pxr-rp.site:7826" aria-label="Launch game">LAUNCH GAME</a>
+          <a class="btn outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
+        </div>
+
+        <button class="copy-ip large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
+      </div>
+    </section>
+
+    <!-- JOIN FLOW (already below, kept) -->
     <section id="join" class="section container">
       <h2 class="section-title">START YOUR STORY</h2>
       <div class="flow">
@@ -155,6 +209,9 @@
       </div>
     </section>
   </main>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <!-- FOOTER -->
   <footer class="site-footer">

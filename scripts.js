@@ -1,13 +1,15 @@
-/* scripts.js - interactions
+/* scripts.js - interactions (updated)
    - Preloader
    - Navbar solid on scroll
    - Smooth anchors
    - Posters: hover & click -> color (toggle .active)
    - Particles (lightweight)
+   - Copy IP controls and toast feedback
 */
 
 const qs = (s, e=document) => e.querySelector(s);
 const qsa = (s, e=document) => Array.from(e.querySelectorAll(s));
+const SERVER_IP = 'samp.pxr-rp.site:7826';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Preloader
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Posters: click/tap toggles active (colorize). Keyboard accessible (Enter/Space)
+  // Posters: toggle color on click/tap + keyboard accessibility
   qsa('.poster').forEach(p => {
     p.addEventListener('click', () => p.classList.toggle('active'));
     p.addEventListener('keydown', (ev) => {
@@ -51,20 +53,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Reveal animations for sections & posters
+  // Reveal animations
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(en => {
-      if (en.isIntersecting) en.target.classList.add('in');
-      else en.target.classList.remove('in');
+      if (en.isIntersecting) en.target.classList.add('in'); else en.target.classList.remove('in');
     });
   }, {threshold: 0.12});
   qsa('.section, .poster').forEach(el => obs.observe(el));
 
   // Init particles
   initParticles('particles');
+
+  // Copy IP controls (header bubble and copy buttons)
+  const toast = qs('#toast');
+  const showToast = (msg='Copied!') => {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.remove('show'), 1800);
+  };
+
+  function copyIP(ip) {
+    if (!ip) ip = SERVER_IP;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ip).then(() => showToast('IP copied to clipboard'), () => fallbackCopy(ip));
+    } else {
+      fallbackCopy(ip);
+    }
+  }
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast('IP copied to clipboard'); } catch (e) { showToast('Copy failed'); }
+    ta.remove();
+  }
+
+  // header bubble
+  const ipBubble = qs('#ipBubble');
+  if (ipBubble) {
+    ipBubble.addEventListener('click', () => copyIP(SERVER_IP));
+    ipBubble.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyIP(SERVER_IP); } });
+  }
+
+  // copy-ip buttons (small & large)
+  qsa('.copy-ip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ip = btn.dataset.ip || SERVER_IP;
+      copyIP(ip);
+    });
+  });
 });
 
-/* Lightweight particle canvas for subtle atmosphere */
+/* Lightweight particle canvas */
 function initParticles(id){
   const c = document.getElementById(id);
   if (!c) return;
