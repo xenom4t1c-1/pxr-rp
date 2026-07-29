@@ -5,174 +5,171 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PrimeX Reality Roleplay</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts (Oswald for headings, Inter for body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Meta -->
-  <meta name="description" content="PrimeX Reality Roleplay - A high-stakes world where every choice echoes. Not just a game — a second life." />
+  <meta name="description" content="PrimeX — A high-stakes world where every choice echoes. Not just a game — a second life." />
 </head>
-<body id="top" class="theme-dark">
-  <!-- Preloader -->
-  <div id="preloader" aria-hidden="true">
-    <div class="spinner"></div>
-  </div>
+<body id="top" class="dark-theme">
+  <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
 
-  <!-- Navbar (minimal: brand + CTAs, no pressable text links) -->
-  <header class="navbar" id="navbar">
+  <!-- NAV: minimal (logo left) + CTAs right -->
+  <header id="navbar" class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="#home" aria-label="PrimeX Reality Roleplay">
         <img src="assets/logo.png" alt="PrimeX Logo" class="brand-logo">
       </a>
 
       <div class="nav-ctas">
-        <!-- Connect (red, on the left) -->
-        <a class="btn discord connect-btn" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">Connect</a>
-        <!-- Discord (grey, on the right) -->
-        <a class="btn ghost discord-btn" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener" aria-label="Join Discord">Discord</a>
-        <!-- Hamburger for mobile -->
-        <button id="hamburger" class="hamburger" aria-label="Toggle menu" aria-expanded="false">
-          <span class="hamburger-box"><span class="hamburger-inner"></span></span>
-        </button>
+        <!-- Left red: Connect -->
+        <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">CONNECT</a>
+        <!-- Right grey: Discord -->
+        <a class="btn btn-discord" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
       </div>
     </div>
   </header>
 
+  <!-- HERO -->
   <main>
-    <!-- Hero -->
-    <section id="home" class="hero" data-hero-image="assets/hero.jpg" aria-label="PrimeX Landing">
+    <section id="home" class="hero" data-hero="assets/hero.jpg" aria-label="PrimeX landing">
       <canvas id="particles" class="particles"></canvas>
-      <div class="overlay"></div>
+      <div class="hero-overlay"></div>
 
-      <div class="hero-content container">
-        <img src="assets/logo.png" alt="PrimeX Logo" class="hero-logo" />
+      <div class="hero-inner container">
+        <img src="assets/logo.png" alt="PrimeX Logo" class="hero-logo">
 
-        <!-- Big server name -->
         <h1 class="hero-title" aria-label="PrimeX Reality Roleplay">
-          <span class="title-main">Prime<span class="title-accent">X</span></span>
-          <span class="title-sub">Reality Roleplay</span>
+          <span class="hero-prime">PRIME<span class="accent">X</span></span>
+          <span class="hero-subline">REALITY ROLEPLAY</span>
         </h1>
 
-        <!-- Small scroll hint -->
-        <div class="scroll-indicator" aria-hidden="true">
-          <div class="mouse"><span></span></div>
-          <div class="arrow"></div>
+        <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
+
+        <div class="hero-actions">
+          <a class="cta primary" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
+          <a class="cta outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
         </div>
+
+        <div class="hero-ip">CONNECT DIRECT — <span class="ip">samp.pxr-rp.site:7826</span></div>
       </div>
     </section>
 
-    <!-- Welcome (placed directly below the hero) -->
-    <section id="welcome" class="section welcome container">
-      <h2 class="section-title">Welcome to PrimeX</h2>
+    <!-- Welcome / Intro -->
+    <section id="welcome" class="section container">
+      <h2 class="section-title">WELCOME TO THE STREETS</h2>
       <p class="lead">
         PrimeX isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.
       </p>
+
+      <div class="feature-cards">
+        <div class="card">REALISTIC ECONOMY<br><span class="card-desc">Every dollar is earned, stolen, or invested.</span></div>
+        <div class="card">HARDCORE RP<br><span class="card-desc">Strict enforcement. No second chances.</span></div>
+        <div class="card">DYNAMIC FACTIONS<br><span class="card-desc">Player-driven turf, politics, and power.</span></div>
+      </div>
     </section>
 
-    <!-- About (three portrait posters: B/W -> color on hover/click) -->
-    <section id="about" class="section about container">
-      <h2 class="section-title">About</h2>
-      <p class="lead">PrimeX Reality Roleplay is a serious SA:MP community with custom systems, realistic economy, factions, and an active staff team.</p>
+    <!-- CHOOSE YOUR PATH / Posters -->
+    <section id="path" class="section dark container">
+      <h2 class="section-title">CHOOSE YOUR PATH</h2>
+      <p class="lead">Three distinct worlds operating in the same city. Which side will you walk?</p>
 
       <div class="posters-grid">
-        <figure class="poster" tabindex="0" data-caption="Enforce the law — become a force of order.">
-          <img src="assets/poster1.jpg" alt="Poster 1">
+        <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
+          <img src="assets/poster1.jpg" alt="Law Enforcement">
           <figcaption>
-            <h3>Law & Order</h3>
-            <p>Enforce the rules, protect citizens, and shape the city's justice.</p>
+            <span class="icon">🛡️</span>
+            <h3>LAW ENFORCEMENT</h3>
+            <p>Uphold the law in a city tearing itself apart.</p>
           </figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0" data-caption="Master the underground — build power and influence.">
-          <img src="assets/poster2.jpg" alt="Poster 2">
+        <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
+          <img src="assets/poster2.jpg" alt="The Underworld">
           <figcaption>
-            <h3>Underground</h3>
-            <p>Control the streets, run syndicates, and play for high stakes.</p>
+            <span class="icon">💀</span>
+            <h3>THE UNDERWORLD</h3>
+            <p>Build syndicates, control territories, run illicit trades.</p>
           </figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0" data-caption="Build a legitimate empire — businesses, properties, and prestige.">
-          <img src="assets/poster3.jpg" alt="Poster 3">
+        <figure class="poster" tabindex="0" data-title="STREET LIFE">
+          <img src="assets/poster3.jpg" alt="Street Life">
           <figcaption>
-            <h3>Entrepreneurship</h3>
-            <p>Own businesses, invest, and rise in the social ladder.</p>
+            <span class="icon">👥</span>
+            <h3>STREET LIFE</h3>
+            <p>Run businesses, hold turf, and survive the streets.</p>
           </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- Rules -->
-    <section id="rules" class="section rules container">
-      <h2 class="section-title">Rules</h2>
-      <p class="lead">We maintain a high standard of realistic roleplay and fair play. Be respectful, follow the roleplay rules, and read the full rules on our Discord server.</p>
-      <div style="margin-top:18px;">
-        <a class="btn discord large" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">Read Rules on Discord</a>
+    <!-- HIGH STAKES / two-column -->
+    <section id="stakes" class="section container split">
+      <div class="split-media">
+        <img src="assets/poster3.jpg" alt="Stakes image">
+      </div>
+      <div class="split-content">
+        <h2 class="big-title"><span>HIGH</span> <span class="accent">STAKES.</span><br><span>REAL</span> <span class="accent">POWER.</span></h2>
+        <p class="lead">The guns on the street are crafted by players. Cars sold by player-owned dealerships. Drugs distributed by syndicates. Every aspect of the city requires human interaction. Zero hand-outs. Absolute consequence.</p>
+
+        <ul class="features-list">
+          <li>Player-driven businesses & economy</li>
+          <li>Custom drug synthesis system</li>
+          <li>Deep vehicle customization</li>
+          <li>Advanced medical & legal systems</li>
+          <li>SAMP 0.3.7 R4 compatible</li>
+        </ul>
+
+        <a class="btn-outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">READ THE RULES</a>
       </div>
     </section>
 
-    <!-- Join Now - horizontal flow -->
-    <section id="join" class="section join container">
-      <h2 class="section-title">Join Now</h2>
-      <p class="lead">Start your PrimeX story in three simple steps.</p>
-
+    <!-- JOIN FLOW -->
+    <section id="join" class="section container">
+      <h2 class="section-title">START YOUR STORY</h2>
       <div class="flow">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h4>Join our Discord</h4>
-            <p>Get the invite, guides, and community help.</p>
-          </div>
+        <div class="flow-step">
+          <div class="num">1</div>
+          <div class="body"><strong>Join our Discord</strong><p>Get guides and the community.</p></div>
         </div>
 
-        <div class="flow-arrow">→</div>
+        <div class="arrow">→</div>
 
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h4>Install SA:MP via Discord</h4>
-            <p>Follow our install guide posted in the Discord channels.</p>
-          </div>
+        <div class="flow-step">
+          <div class="num">2</div>
+          <div class="body"><strong>Install SA:MP</strong><p>Follow the install steps from Discord.</p></div>
         </div>
 
-        <div class="flow-arrow">→</div>
+        <div class="arrow">→</div>
 
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h4>Connect to Server</h4>
-            <p>Use the connect button or connect to samp.pxr-rp.site:7826.</p>
-          </div>
+        <div class="flow-step">
+          <div class="num">3</div>
+          <div class="body"><strong>Connect to Server</strong><p>Use samp.pxr-rp.site:7826 or the Connect button.</p></div>
         </div>
       </div>
 
-      <div class="join-cta" style="margin-top:22px;">
-        <a class="btn discord connect-large" href="samp://samp.pxr-rp.site:7826">Connect to Server</a>
-        <a class="btn ghost" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">Open Discord</a>
+      <div class="join-buttons">
+        <a class="btn btn-connect large" href="samp://samp.pxr-rp.site:7826">CONNECT</a>
+        <a class="btn btn-discord large ghost" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="footer-brand">
-        <img src="assets/logo.png" alt="PrimeX Logo" class="footer-logo">
-        <p>PrimeX Reality Roleplay</p>
+      <div class="brand">
+        <img src="assets/logo.png" alt="PrimeX" class="footer-logo">
+        <div class="brand-name">PrimeX Reality Roleplay</div>
       </div>
-
-      <div class="footer-meta">
-        <small>EST. 2020</small>
-      </div>
-
-      <div class="footer-cta">
-        <a class="btn ghost" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">Discord</a>
+      <div class="meta">EST. 2020</div>
+      <div class="footer-links">
+        <a href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener" class="btn-small">Discord</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="scripts.js" defer></script>
 </body>
 </html>
