@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phlox Republic Roleplay</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Phlox Republic Roleplay — A high-stakes world where every choice echoes. Not just a game — a second life." />
+</head>
+<body id="top" class="dark-theme">
+  <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
+
+  <!-- NAV: logo left + CTAs right (no IP bubble) -->
+  <header id="navbar" class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="Phlox Republic Roleplay">
+        <img src="assets/logo.png" alt="Phlox Republic Logo" class="brand-logo">
+      </a>
+
+      <div class="nav-ctas">
+        <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">CONNECT</a>
+        <a class="btn btn-discord" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="home" class="hero" data-hero="assets/hero.jpg" aria-label="Phlox landing">
+      <canvas id="particles" class="particles"></canvas>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-inner container">
+        <img src="assets/logo.png" alt="Phlox Republic Logo" class="hero-logo">
+
+        <h1 class="hero-title" aria-label="Phlox Republic Roleplay">
+          <span class="hero-prime">PHLO<span class="accent">X</span></span>
+          <span class="hero-subline">REPUBLIC ROLEPLAY</span>
+        </h1>
+
+        <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
+
+        <div class="hero-actions">
+          <a class="cta primary" href="samp://samp.pxr-rp.site:7826" aria-label="Play now / Launch game">PLAY NOW</a>
+          <a class="cta outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Welcome / Intro (updated title) -->
+    <section id="welcome" class="section container">
+      <h2 class="section-title">WELCOME TO PHLOX REPUBLIC</h2>
+      <p class="lead">
+        Phlox Republic isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.
+      </p>
+
+      <!-- Redesigned feature cards -->
+      <div class="feature-cards" aria-hidden="false">
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">REALISTIC ECONOMY</h3>
+            <p class="card-desc">Every dollar is earned, stolen, or invested. Zero inflation. Player-owned businesses form the backbone of our city.</p>
+          </div>
+        </article>
+
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 3L18 20l-6-4-6 4 1.5-8L3 8.5 9 8 12 2z" stroke="currentColor" stroke-width="0.6" /></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">HARDCORE RP</h3>
+            <p class="card-desc">Serious enforcement and consequences — no quick respawns for your choices. Immersion-first rules and consistent staff enforcement.</p>
+          </div>
+        </article>
+
+        <article class="card enhanced">
+          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="card-body">
+            <h3 class="card-title">DYNAMIC FACTIONS</h3>
+            <p class="card-desc">Turf battles, political campaigns, and corporate buyouts — entire systems driven by players and emergent conflict.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CHOOSE YOUR PATH / Posters -->
+    <section id="path" class="section dark container">
+      <h2 class="section-title">CHOOSE YOUR PATH</h2>
+      <p class="lead">Three distinct worlds operating in the same city. Which side will you walk?</p>
+
+      <div class="posters-grid">
+        <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
+          <img src="assets/poster1.jpg" alt="Law Enforcement">
+          <figcaption>
+            <span class="icon">🛡️</span>
+            <h3>LAW ENFORCEMENT</h3>
+            <p>Uphold the law in a city tearing itself apart.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
+          <img src="assets/poster2.jpg" alt="The Underworld">
+          <figcaption>
+            <span class="icon">💀</span>
+            <h3>THE UNDERWORLD</h3>
+            <p>Build syndicates, control territories, run illicit trades.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="poster" tabindex="0" data-title="STREET LIFE">
+          <img src="assets/poster3.jpg" alt="Street Life">
+          <figcaption>
+            <span class="icon">👥</span>
+            <h3>STREET LIFE</h3>
+            <p>Run businesses, hold turf, and survive the streets.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- HIGH STAKES / two-column -->
+    <section id="stakes" class="section container split">
+      <div class="split-media">
+        <img src="assets/poster3.jpg" alt="Stakes image">
+      </div>
+      <div class="split-content">
+        <h2 class="big-title"><span>HIGH</span> <span class="accent">STAKES.</span><br><span>REAL</span> <span class="accent">POWER.</span></h2>
+        <p class="lead">The guns on the street are crafted by players. Cars sold by player-owned dealerships. Drugs distributed by syndicates. Every aspect of the city requires human interaction. Zero hand-outs. Absolute consequence.</p>
+
+        <ul class="features-list">
+          <li>Player-driven businesses & economy</li>
+          <li>Custom drug synthesis system</li>
+          <li>Deep vehicle customization</li>
+          <li>Advanced medical & legal systems</li>
+          <li>SAMP 0.3.7 R4 compatible</li>
+        </ul>
+
+        <a class="link-readrules" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">READ THE RULES</a>
+      </div>
+    </section>
+
+    <!-- START YOUR STORY flow -->
+    <section id="start-flow" class="section container">
+      <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
+
+      <div class="start-flow">
+        <div class="flow-item">
+          <div class="circle">01</div>
+          <div class="flow-desc">
+            <h4>INSTALL GTA & SA:MP</h4>
+            <p>You need GTA San Andreas and the SA:MP 0.3.7 R4 client. Both are required to connect.</p>
+          </div>
+        </div>
+
+        <div class="flow-item center">
+          <div class="circle highlight">02</div>
+          <div class="flow-desc">
+            <h4>JOIN THE COMMUNITY</h4>
+            <p>Hop into our Discord, read the rules, meet the crew, and get oriented before you connect.</p>
+            <a class="link-cta" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD ›</a>
+          </div>
+        </div>
+
+        <div class="flow-item">
+          <div class="circle">03</div>
+          <div class="flow-desc">
+            <h4>CONNECT & PLAY</h4>
+            <p>Add our IP to your SA:MP favourites or hit Launch Game to join immediately.</p>
+            <button class="copy-ip small" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECT CONNECT boxed area -->
+    <section id="direct" class="section container">
+      <div class="direct-box">
+        <div class="direct-label">DIRECT CONNECT</div>
+        <div class="direct-ip">samp.pxr-rp.site:7826</div>
+
+        <div class="direct-actions">
+          <a class="btn big-launch" href="samp://samp.pxr-rp.site:7826" aria-label="Launch game">LAUNCH GAME</a>
+          <a class="btn outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
+        </div>
+
+        <button class="copy-ip large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- floating Discord CTA bottom-right -->
+  <a href="https://discord.gg/44zBvvmD46" class="floating-discord" target="_blank" rel="noopener" aria-label="Open Discord">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5c-.5-.3-1-.5-1.6-.6C16.8 3 12 3 12 3s-4.8 0-6.4.9c-.6.1-1.1.3-1.6.6-.6.3-1 1-1 1.7 0 1.6.7 3.2 2 4.3-.2.6-.3 1.2-.3 1.9 0 1.3.6 2.5 1.6 3.2 0 0-.2.1-.6.2 0 0 1.2.4 3.3.4 1.5 0 3.1-.3 4-1 .9.7 2.5 1 4 1 2.1 0 3.3-.4 3.3-.4-.4-.1-.6-.2-.6-.2 1-.7 1.6-1.9 1.6-3.2 0-.7-.1-1.3-.3-1.9 1.3-1.1 2-2.7 2-4.3 0-.7-.4-1.4-1-1.7z"/></svg>
+  </a>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Phlox Republic" class="footer-logo">
+        <div class="brand-name">Phlox Republic Roleplay</div>
+      </div>
+      <div class="meta">EST. 2020</div>
+      <div class="footer-links">
+        <a href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener" class="btn-small">Discord</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts.js" defer></script>
+</body>
+</html>
