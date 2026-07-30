@@ -1,16 +1,68 @@
 /* styles.css — tweaks: new floating Discord CTA, improved cards, consistent copy IP styling */
 /* Rebranded to Phlox Republic Roleplay: purple theme variables */
+/* add this near the top (if not present) */
 :root{
   --bg:#070607;
   --panel:#0b0b0b;
   --muted:#9ea3a8;
   --white:#ffffff;
   --accent:#7c2cc8; /* phlox purple */
-  --accent-rgb: 124,44,200; /* use in rgba(...) */
+  --accent-rgb: 124,44,200;
   --glass: rgba(255,255,255,0.03);
   --container:1200px;
   --radius:12px;
   --transition:260ms cubic-bezier(.2,.9,.25,1);
+}
+
+/* smooth scrolling fallback for browsers: */
+html {
+  scroll-behavior: smooth;
+}
+
+/* HERO subtitle: make Republic larger and Roleplay below */
+.hero-subline{
+  font-family:"Oswald",sans-serif;
+  display:block;
+  margin-top:6px;
+  line-height:1;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+.hero-subline .sub-big{
+  font-size:44px;
+  color:var(--white);
+  display:block;
+  font-weight:700;
+}
+.hero-subline .sub-small{
+  font-size:20px;
+  color:var(--muted);
+  display:block;
+  margin-top:4px;
+  font-weight:600;
+}
+
+/* footer layout fix: center the EST text */
+.site-footer{padding:26px 0;background:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35));border-top:1px solid rgba(255,255,255,0.03)}
+.footer-inner{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:12px;
+  width:100%;
+}
+.footer-inner .brand{justify-self:start; display:flex; align-items:center; gap:12px}
+.footer-inner .meta{justify-self:center; color:var(--muted); font-weight:700}
+.footer-inner .footer-links{justify-self:end; display:flex; gap:10px; align-items:center}
+
+/* small responsive tweaks to keep subtitle readable */
+@media (max-width:1000px){
+  .hero-subline .sub-big{font-size:36px}
+  .hero-subline .sub-small{font-size:18px}
+}
+@media (max-width:640px){
+  .hero-subline .sub-big{font-size:26px}
+  .hero-subline .sub-small{font-size:14px}
 }
 
 *{box-sizing:border-box}
