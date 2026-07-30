@@ -108,6 +108,7 @@ function initParticles(id){
   const particles = [];
   const count = Math.min(90, Math.floor(W / 15));
   function rand(a,b){return Math.random()*(b-a)+a}
+  // phlox purple rgb: 124,44,200
   for (let i=0;i<count;i++) particles.push({x:Math.random()*W,y:Math.random()*H,r:rand(.6,2.2),vx:rand(-0.15,0.15),vy:rand(0.02,0.35),a:rand(0.02,0.12)});
   window.addEventListener('resize', () => {W=c.width=innerWidth; H=c.height=innerHeight;});
   function loop(){
@@ -115,7 +116,7 @@ function initParticles(id){
     for (let p of particles){
       p.x += p.vx; p.y += p.vy;
       if (p.y > H + 20) { p.y = -10; p.x = Math.random()*W; }
-      ctx.beginPath(); ctx.fillStyle = `rgba(217,4,41,${p.a})`; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.fillStyle = `rgba(124,44,200,${p.a})`; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
     }
     requestAnimationFrame(loop);
   }
