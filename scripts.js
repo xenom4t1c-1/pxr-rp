@@ -98,6 +98,112 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+  // --- Music box interaction ---
+  const audio = qs('#bg-music');
+  const musicBox = qs('.music-box');
+  const musicHandle = qs('.music-handle');
+  const musicPlay = qs('#music-play');
+  const musicPin = qs('#music-pin');
+  const volRange = qs('#music-volume');
+  const progressBar = qs('.music-progress-bar');
+  const progressFilled = qs('.music-progress-filled');
+  const timeCur = qs('.music-time .cur');
+  const timeDur = qs('.music-time .dur');
+
+  // load saved prefs
+  try {
+    const savedVol = localStorage.getItem('phlox_music_vol');
+    const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
+    if (savedVol !== null && volRange) { audio.volume = parseFloat(savedVol); volRange.value = audio.volume; }
+    // we don't auto-play for policy reasons; if user previously had it playing, we still need a user gesture
+    if (savedPlay && false) { audio.play().catch(()=>{}); } // left disabled — automatic resume requires a gesture
+  } catch (e){ /* ignore storage errors */ }
+
+  // open on hover & click
+  if (musicHandle && musicBox){
+    musicHandle.addEventListener('click', (e) => { musicBox.classList.toggle('open'); });
+    musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
+    musicBox.addEventListener('mouseleave', () => { if (musicPin && musicPin.getAttribute('aria-pressed') !== 'true') musicBox.classList.remove('open'); });
+    // keyboard: open on focus
+    musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
+  }
+
+  // play/pause toggle
+  if (musicPlay && audio) {
+    function updatePlayUI(){
+      const playing = !audio.paused && !audio.ended;
+      musicPlay.setAttribute('aria-pressed', String(playing));
+      if (playing){
+        musicPlay.querySelector('.icon-play').style.display = 'none';
+        musicPlay.querySelector('.icon-pause').style.display = 'inline';
+        showToast('Music playing');
+      } else {
+        musicPlay.querySelector('.icon-play').style.display = 'inline';
+        musicPlay.querySelector('.icon-pause').style.display = 'none';
+        showToast('Music paused');
+      }
+      localStorage.setItem('phlox_music_playing', playing ? '1' : '0');
+    }
+
+    musicPlay.addEventListener('click', (e) => {
+      if (audio.paused) {
+        audio.play().catch(() => { showToast('Playback blocked — click to enable'); });
+      } else {
+        audio.pause();
+      }
+      updatePlayUI();
+    });
+
+    audio.addEventListener('play', updatePlayUI);
+    audio.addEventListener('pause', updatePlayUI);
+
+    // time updates
+    audio.addEventListener('timeupdate', () => {
+      const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+      progressFilled.style.width = pct + '%';
+      progressBar.setAttribute('aria-valuenow', Math.round(pct));
+      // time display
+      function fmt(s){ if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
+      timeCur.textContent = fmt(audio.currentTime);
+      timeDur.textContent = isFinite(audio.duration) ? fmt(audio.duration) : '0:00';
+    });
+
+    // seek on click
+    progressBar.addEventListener('click', (ev) => {
+      const r = progressBar.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+      audio.currentTime = (audio.duration || 0) * x;
+    });
+
+    // volume control
+    if (volRange){
+      volRange.addEventListener('input', () => {
+        audio.volume = parseFloat(volRange.value);
+        try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {}
+      });
+      // initialize display
+      volRange.value = audio.volume;
+    }
+
+    // pin toggle
+    if (musicPin){
+      musicPin.addEventListener('click', () => {
+        const pinned = musicPin.getAttribute('aria-pressed') === 'true';
+        musicPin.setAttribute('aria-pressed', String(!pinned));
+      });
+    }
+
+    // on first user gesture anywhere, if user previously had 'playing' saved, resume playback
+    window.addEventListener('pointerdown', function resumeIfNeeded(){
+      try {
+        const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
+        if (savedPlay && audio.paused) { audio.play().catch(()=>{}); }
+      } catch (e) {}
+      window.removeEventListener('pointerdown', resumeIfNeeded);
+    }, { once: true });
+  }
+  // --- end music box code ---
+
 /* Lightweight particle canvas */
 function initParticles(id){
   const c = document.getElementById(id);
