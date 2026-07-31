@@ -204,6 +204,49 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5c-.5-.3-1-.5-1.6-.6C16.8 3 12 3 12 3s-4.8 0-6.4.9c-.6.1-1.1.3-1.6.6-.6.3-1 1-1 1.7 0 1.6.7 3.2 2 4.3-.2.6-.3 1.2-.3 1.9 0 1.3.6 2.5 1.6 3.2 0 0-.2.1-.6.2 0 0 1.2.4 3.3.4 1.5 0 3.1-.3 4-1 .9.7 2.5 1 4 1 2.1 0 3.3-.4 3.3-.4-.4-.1-.6-.2-.6-.2 1-.7 1.6-1.9 1.6-3.2 0-.7-.1-1.3-.3-1.9 1.3-1.1 2-2.7 2-4.3 0-.7-.4-1.4-1-1.7z"/></svg>
   </a>
 
+    <!-- add just above the TOAST or before </body> -->
+  <!-- Background music (user-provided file) -->
+  <audio id="bg-music" src="assets/music.mp3" preload="auto" loop crossorigin="anonymous"></audio>
+
+  <!-- Music box control (bottom-left) -->
+  <div class="music-box" aria-hidden="false" aria-label="Music player">
+    <button class="music-handle" aria-label="Open music player" title="Music">
+      <!-- simple music icon (SVG) -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M9 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10-11-7 2v8a3 3 0 1 0 2 0V9l5-1.4V6z"/>
+      </svg>
+    </button>
+
+    <div class="music-panel" role="region" aria-label="Music controls">
+      <div class="music-meta">
+        <div class="music-title">Phlox Theme</div>
+        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play music" title="Play">
+          <!-- play icon -->
+          <svg class="icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M5 3v18l15-9L5 3z"/>
+          </svg>
+          <svg class="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="music-progress" aria-hidden="false">
+        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="music-progress-filled"></div>
+        </div>
+        <div class="music-time"><span class="cur">0:00</span> / <span class="dur">0:00</span></div>
+      </div>
+
+      <div class="music-opts">
+        <label class="volume">
+          <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+        </label>
+        <button id="music-pin" class="music-pin" aria-pressed="false" title="Keep player open" aria-label="Pin music player">📌</button>
+      </div>
+    </div>
+  </div>
+  
   <!-- TOAST -->
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
