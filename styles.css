@@ -46,14 +46,15 @@ html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe
 
 /* hero content */
 .hero-inner{position:relative;z-index:6;text-align:center;padding:120px 0;max-width:1100px}
-.hero-prime{font-family:"Oswald",sans-serif;font-size:150px;line-height:0.86;display:block;letter-spacing:2px;text-shadow:0 8px 30px rgba(var(--accent-rgb),0.08)}
+/* Make PHLOX fully phlox-purple */
+.hero-prime{font-family:"Oswald",sans-serif;font-size:150px;line-height:0.86;display:block;letter-spacing:2px;text-shadow:0 8px 30px rgba(var(--accent-rgb),0.08); color:var(--accent)}
 .hero-prime .accent, .accent{color:var(--accent)}
 .parallax-phlox{display:inline-block;will-change:transform;transition:transform 220ms linear}
 
-/* SUBLINE: Republic with dashes (gray) and Roleplay white below */
+/* SUBLINE: Republic with single hyphens */
 .hero-subline{font-family:"Oswald",sans-serif;display:block;margin-top:6px;line-height:1;text-transform:uppercase}
 .sub-big{display:block;font-size:44px;color:var(--muted);font-weight:700;letter-spacing:4px;position:relative;}
-.sub-big::before,.sub-big::after{content:"—";margin:0 10px;color:var(--muted);opacity:0.9}
+.sub-big::before,.sub-big::after{content:"-";margin:0 10px;color:var(--muted);opacity:0.9}
 .sub-small{display:block;font-size:20px;color:var(--white);margin-top:6px;letter-spacing:2px;font-weight:700}
 
 /* hero tag + CTA */
@@ -72,16 +73,12 @@ html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe
 .lead{text-align:center;color:var(--muted);max-width:960px;margin:0 auto 28px;font-size:16px}
 .experience{font-weight:600}
 
-/* CHOOSE YOUR PATH background override: gif 'Community' */
+/* CHOOSE YOUR PATH background override removed - we'll show community as a poster instead */
 #path{position:relative;overflow:hidden}
 #path::before{
+  /* removed the background GIF here: community GIF is now a poster inside the grid */
   content:"";
   position:absolute;inset:0;
-  background-image:url('assets/community.gif');
-  background-size:cover;
-  background-position:center center;
-  opacity:0.42;
-  filter:brightness(.45);
   z-index:0;
 }
 #path > .container{position:relative;z-index:6} /* keep content above bg */

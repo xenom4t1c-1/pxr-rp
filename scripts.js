@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   qsa('.poster').forEach(p => {
     p.addEventListener('click', () => p.classList.toggle('active'));
     p.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); p.classList.toggle('active'); }
+      if (ev.key === 'Enter' || ev.key === ' ' || ev.code === 'Space') { ev.preventDefault(); p.classList.toggle('active'); }
     });
   });
 
@@ -110,11 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeCur = qs('.music-time .cur');
   const timeDur = qs('.music-time .dur');
 
-  // load saved prefs
+  // load saved prefs & initialize volume properly
   try {
     const savedVol = localStorage.getItem('phlox_music_vol');
     const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
-    if (savedVol !== null && volRange && audio) { audio.volume = parseFloat(savedVol); volRange.value = audio.volume; }
+    if (volRange && audio) {
+      if (savedVol !== null) {
+        audio.volume = parseFloat(savedVol);
+        volRange.value = audio.volume;
+      } else {
+        // use the input's default (HTML value) when no saved preference
+        audio.volume = parseFloat(volRange.value) || audio.volume || 0.6;
+      }
+    } else if (audio && !volRange) {
+      // fallback: keep audio default
+      audio.volume = audio.volume || 0.6;
+    }
   } catch (e){ /* ignore storage errors */ }
 
   // open on hover & click
@@ -130,15 +141,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePlayUI(){
       const playing = !audio.paused && !audio.ended;
       musicPlay.setAttribute('aria-pressed', String(playing));
-      if (playing){
-        musicPlay.querySelector('.icon-play').style.display = 'none';
-        musicPlay.querySelector('.icon-pause').style.display = 'inline';
-      } else {
-        musicPlay.querySelector('.icon-play').style.display = 'inline';
-        musicPlay.querySelector('.icon-pause').style.display = 'none';
-      }
+      const playIcon = musicPlay.querySelector('.icon-play');
+      const pauseIcon = musicPlay.querySelector('.icon-pause');
+      if (playIcon) playIcon.style.display = playing ? 'none' : 'inline';
+      if (pauseIcon) pauseIcon.style.display = playing ? 'inline' : 'none';
       try { localStorage.setItem('phlox_music_playing', playing ? '1' : '0'); } catch (e) {}
     }
+
+    // ensure UI reflects actual state on load
+    updatePlayUI();
 
     musicPlay.addEventListener('click', (e) => {
       if (audio.paused) {
@@ -152,22 +163,25 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.addEventListener('play', updatePlayUI);
     audio.addEventListener('pause', updatePlayUI);
 
-    // time updates
+    // time updates (guarded)
     audio.addEventListener('timeupdate', () => {
+      if (!progressFilled && !progressBar && !timeCur && !timeDur) return;
       const pct = (audio.currentTime / (audio.duration || 1)) * 100;
-      progressFilled.style.width = pct + '%';
-      progressBar.setAttribute('aria-valuenow', Math.round(pct));
+      if (progressFilled) progressFilled.style.width = pct + '%';
+      if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
       function fmt(s){ if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
-      timeCur.textContent = fmt(audio.currentTime);
-      timeDur.textContent = isFinite(audio.duration) ? fmt(audio.duration) : '0:00';
+      if (timeCur) timeCur.textContent = fmt(audio.currentTime);
+      if (timeDur) timeDur.textContent = isFinite(audio.duration) ? fmt(audio.duration) : '0:00';
     });
 
-    // seek on click
-    progressBar.addEventListener('click', (ev) => {
-      const r = progressBar.getBoundingClientRect();
-      const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
-      audio.currentTime = (audio.duration || 0) * x;
-    });
+    // seek on click (guarded)
+    if (progressBar) {
+      progressBar.addEventListener('click', (ev) => {
+        const r = progressBar.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+        audio.currentTime = (audio.duration || 0) * x;
+      });
+    }
 
     // volume control
     if (volRange){
@@ -175,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.volume = parseFloat(volRange.value);
         try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {}
       });
+      // ensure input reflects actual audio volume
       volRange.value = audio.volume;
     }
 
