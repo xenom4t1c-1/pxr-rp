@@ -4,8 +4,8 @@
    - Smooth anchors
    - Posters: hover & click -> color (toggle .active)
    - Particles (lightweight)
-   - Copy IP controls and toast feedback (consistent styled buttons)
-   - Music box player + parallax PHLOX
+   - Copy IP controls and toast feedback
+   - Music box player + controls
 */
 
 const qs = (s, e=document) => e.querySelector(s);
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Navbar solid on scroll
   const navbar = qs('#navbar');
   const onScroll = () => {
+    if (!navbar) return;
     if (window.scrollY > 60) navbar.classList.add('solid'); else navbar.classList.remove('solid');
   };
   window.addEventListener('scroll', onScroll);
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Smooth scroll for anchors (# links)
   qsa('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const href = a.getAttribute('href');
+      const href = a.getAttribute('href') || '';
       if (!href.startsWith('#')) return;
       const target = document.querySelector(href);
       if (!target) return;
@@ -55,15 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Reveal animations for sections & posters
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      if (en.isIntersecting) en.target.classList.add('in'); else en.target.classList.remove('in');
-    });
-  }, {threshold: 0.12});
-  qsa('.section, .poster').forEach(el => obs.observe(el));
+  try {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) en.target.classList.add('in'); else en.target.classList.remove('in');
+      });
+    }, {threshold: 0.12});
+    qsa('.section, .poster').forEach(el => obs.observe(el));
+  } catch (e) {
+    // IntersectionObserver unsupported or errors — ignore
+  }
 
-  // Init particles
-  initParticles('particles');
+  // Init particles (safe)
+  try { initParticles('particles'); } catch (e) {}
 
   // Copy IP controls (copy buttons and toast)
   const toast = qs('#toast');
@@ -75,6 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
     toast._t = setTimeout(() => toast.classList.remove('show'), 1800);
   };
 
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('IP copied to clipboard'); } catch (e) { showToast('Copy failed'); }
+    ta.remove();
+  }
+
   function copyIP(ip) {
     if (!ip) ip = SERVER_IP;
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -82,12 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       fallbackCopy(ip);
     }
-  }
-  function fallbackCopy(text) {
-    const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); showToast('IP copied to clipboard'); } catch (e) { showToast('Copy failed'); }
-    ta.remove();
   }
 
   // copy-ip buttons (small & large)
@@ -98,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Music box interaction ---
+  // --- Music box interaction (robust, defensive) ---
   const audio = qs('#bg-music');
   const musicBox = qs('.music-box');
   const musicHandle = qs('.music-handle');
@@ -110,35 +120,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeCur = qs('.music-time .cur');
   const timeDur = qs('.music-time .dur');
 
-  // load saved prefs & initialize volume properly
-  try {
-    const savedVol = localStorage.getItem('phlox_music_vol');
-    const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
-    if (volRange && audio) {
-      if (savedVol !== null) {
+  if (audio) {
+    // initialize volume from saved prefs or input default
+    try {
+      const savedVol = localStorage.getItem('phlox_music_vol');
+      if (volRange) {
+        if (savedVol !== null) {
+          audio.volume = parseFloat(savedVol);
+          volRange.value = audio.volume;
+        } else {
+          // keep the input default (if any), fallback to 0.6
+          audio.volume = parseFloat(volRange.value) || audio.volume || 0.6;
+          volRange.value = audio.volume;
+        }
+      } else if (savedVol !== null) {
         audio.volume = parseFloat(savedVol);
-        volRange.value = audio.volume;
       } else {
-        // use the input's default (HTML value) when no saved preference
-        audio.volume = parseFloat(volRange.value) || audio.volume || 0.6;
+        audio.volume = audio.volume || 0.6;
       }
-    } else if (audio && !volRange) {
-      // fallback: keep audio default
-      audio.volume = audio.volume || 0.6;
+    } catch (e){ /* ignore storage errors */ }
+
+    // open on hover & click for music box handle
+    if (musicHandle && musicBox) {
+      musicHandle.addEventListener('click', () => musicBox.classList.toggle('open'));
+      musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
+      musicBox.addEventListener('mouseleave', () => {
+        if (musicPin && musicPin.getAttribute('aria-pressed') === 'true') return;
+        musicBox.classList.remove('open');
+      });
+      musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
     }
-  } catch (e){ /* ignore storage errors */ }
 
-  // open on hover & click
-  if (musicHandle && musicBox){
-    musicHandle.addEventListener('click', (e) => { musicBox.classList.toggle('open'); });
-    musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
-    musicBox.addEventListener('mouseleave', () => { if (musicPin && musicPin.getAttribute('aria-pressed') !== 'true') musicBox.classList.remove('open'); });
-    musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
-  }
-
-  // play/pause toggle
-  if (musicPlay && audio) {
+    // play/pause UI and behavior
     function updatePlayUI(){
+      if (!musicPlay || !audio) return;
       const playing = !audio.paused && !audio.ended;
       musicPlay.setAttribute('aria-pressed', String(playing));
       const playIcon = musicPlay.querySelector('.icon-play');
@@ -148,24 +163,26 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.setItem('phlox_music_playing', playing ? '1' : '0'); } catch (e) {}
     }
 
-    // ensure UI reflects actual state on load
+    // ensure UI reflects initial state
     updatePlayUI();
 
-    musicPlay.addEventListener('click', (e) => {
-      if (audio.paused) {
-        audio.play().catch(() => { showToast('Playback blocked — click again to enable'); });
-      } else {
-        audio.pause();
-      }
-      updatePlayUI();
-    });
+    if (musicPlay) {
+      musicPlay.addEventListener('click', (e) => {
+        if (audio.paused) {
+          audio.play().catch(() => { showToast('Playback blocked — interact to enable'); });
+        } else {
+          audio.pause();
+        }
+        updatePlayUI();
+      });
+    }
 
     audio.addEventListener('play', updatePlayUI);
     audio.addEventListener('pause', updatePlayUI);
 
     // time updates (guarded)
     audio.addEventListener('timeupdate', () => {
-      if (!progressFilled && !progressBar && !timeCur && !timeDur) return;
+      if (!audio) return;
       const pct = (audio.currentTime / (audio.duration || 1)) * 100;
       if (progressFilled) progressFilled.style.width = pct + '%';
       if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
@@ -174,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (timeDur) timeDur.textContent = isFinite(audio.duration) ? fmt(audio.duration) : '0:00';
     });
 
-    // seek on click (guarded)
+    // seek on click
     if (progressBar) {
       progressBar.addEventListener('click', (ev) => {
         const r = progressBar.getBoundingClientRect();
@@ -184,24 +201,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // volume control
-    if (volRange){
+    if (volRange) {
       volRange.addEventListener('input', () => {
         audio.volume = parseFloat(volRange.value);
         try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {}
       });
-      // ensure input reflects actual audio volume
+      // ensure input reflects audio volume
       volRange.value = audio.volume;
     }
 
     // pin toggle
-    if (musicPin){
+    if (musicPin) {
       musicPin.addEventListener('click', () => {
         const pinned = musicPin.getAttribute('aria-pressed') === 'true';
         musicPin.setAttribute('aria-pressed', String(!pinned));
       });
     }
 
-    // resume attempt after first gesture if user previously had playing = 1
+    // If user previously wanted playback, try resuming after first gesture
     window.addEventListener('pointerdown', function resumeIfNeeded(){
       try {
         const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
@@ -209,25 +226,20 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
       window.removeEventListener('pointerdown', resumeIfNeeded);
     }, { once: true });
-  }
-  // --- end music box code ---
+  } // end if audio
 
-  // --- Parallax PHLOX movement (smooth on scroll) ---
+  // --- Parallax PHLOX movement (simple & safe) ---
   const parallaxEls = qsa('.parallax-phlox');
   if (parallaxEls.length){
-    let lastScroll = window.scrollY;
     let ticking = false;
     function onScrollParallax() {
-      lastScroll = window.scrollY;
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const w = window.innerWidth;
           for (const el of parallaxEls) {
-            // small horizontal + vertical shift based on scroll and element position
             const rect = el.getBoundingClientRect();
             const centerY = rect.top + rect.height/2;
             const offset = (window.scrollY / 300) + (centerY - window.innerHeight/2) / 500;
-            const x = Math.sin(window.scrollY / 300) * 6; // gentle sway
+            const x = Math.sin(window.scrollY / 300) * 6;
             const y = Math.max(-20, Math.min(20, offset * 14));
             el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
           }
@@ -237,10 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     window.addEventListener('scroll', onScrollParallax, { passive: true });
-    // initial position
     onScrollParallax();
   }
-  // --- end parallax ---
 
 }); // end DOMContentLoaded
 
