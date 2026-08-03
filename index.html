@@ -7,14 +7,13 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="styles.css">
   <meta name="description" content="Phlox Republic Roleplay — A high-stakes world where every choice echoes. Not just a game — a second life." />
 </head>
 <body id="top" class="dark-theme">
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
 
-  <!-- NAV: logo left + CTAs right -->
+  <!-- NAV -->
   <header id="navbar" class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="#home" aria-label="Phlox Republic Roleplay">
@@ -35,11 +34,10 @@
       <div class="hero-overlay"></div>
 
       <div class="hero-inner container">
-        <img src="assets/logo.png" alt="Phlox Republic Logo" class="hero-logo">
-
+        <!-- removed the small logo above PHLOX as requested -->
         <h1 class="hero-title" aria-label="Phlox Republic Roleplay">
           <span class="hero-prime parallax-phlox">PHLOX</span>
-          <span class="hero-subline">REPUBLIC</span>
+          <span class="hero-subline"><span class="sub-big">REPUBLIC</span></span>
           <span class="sub-small" style="display:block;margin-top:6px;color:var(--white);font-weight:700;letter-spacing:2px">ROLEPLAY</span>
         </h1>
 
@@ -52,7 +50,7 @@
       </div>
     </section>
 
-    <!-- Welcome / Intro -->
+    <!-- Welcome -->
     <section id="welcome" class="section container centered">
       <h2 class="section-title">WELCOME TO PHLOX REPUBLIC</h2>
       <p class="lead">Phlox Republic isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.</p>
@@ -84,7 +82,7 @@
       </div>
     </section>
 
-    <!-- CHOOSE YOUR PATH / Posters: single straight row (4 across on desktop) -->
+    <!-- CHOOSE YOUR PATH -->
     <section id="path" class="section dark container centered">
       <h2 class="section-title">CHOOSE YOUR PATH</h2>
       <p class="lead">Four different aspects of life in the city. Which side will you walk?</p>
@@ -94,7 +92,6 @@
       </p>
 
       <div class="posters-grid">
-        <!-- COMMUNITY poster uses main hero image as requested -->
         <figure class="poster" tabindex="0" data-title="COMMUNITY">
           <img src="assets/hero.jpg" alt="Community">
           <figcaption>
@@ -133,12 +130,11 @@
       </div>
     </section>
 
-    <!-- HIGH STAKES -->
+    <!-- HIGH STAKES / REAL POWER -->
     <section id="stakes" class="section container split">
       <div class="split-media">
         <img src="assets/poster3.jpg" alt="Stakes image">
       </div>
-
       <div class="split-content">
         <h2 class="big-title"><span>HIGH</span> <span class="accent">STAKES.</span><br><span>REAL</span> <span class="accent">POWER.</span></h2>
         <p class="lead">The guns on the street are crafted by players. Cars sold by player-owned dealerships. Drugs distributed by syndicates. Every aspect of the city requires human interaction. Zero hand-outs. Absolute consequence.</p>
@@ -155,7 +151,7 @@
       </div>
     </section>
 
-    <!-- START YOUR STORY flow -->
+    <!-- START YOUR STORY -->
     <section id="start-flow" class="section container">
       <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
 
@@ -237,7 +233,7 @@
     </div>
   </div>
 
-  <!-- floating Discord CTA bottom-right -->
+  <!-- floating Discord CTA -->
   <a href="https://discord.gg/44zBvvmD46" class="floating-discord" target="_blank" rel="noopener" aria-label="Open Discord">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5c-.5-.3-1-.5-1.6-.6C16.8 3 12 3 12 3s-4.8 0-6.4.9c-.6.1-1.1.3-1.6.6-.6.3-1 1-1 1.7 0 1.6.7 3.2 2 4.3-.2.6-.3 1.2-.3 1.9 0 1.3.6 2.5 1.6 3.2 0 0-.2.1-.6.2 0 0 1.2.4 3.3.4 1.5 0 3.1-.3 4-1 .9.7 2.5 1 4 1 2.1 0 3.3-.4 3.3-.4-.4-.1-.6-.2-.6-.2 1-.7 1.6-1.9 1.6-3.2 0-.7-.1-1.3-.3-1.9 1.3-1.1 2-2.7 2-4.3 0-.7-.4-1.4-1-1.7z"/></svg>
   </a>

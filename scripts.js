@@ -1,11 +1,11 @@
-/* scripts.js - interactions (cleaned up & updated)
+/* scripts.js - interactions
    - Preloader
    - Navbar solid on scroll
    - Smooth anchors
    - Posters: hover & click -> color (toggle .active)
    - Particles (lightweight)
    - Copy IP controls and toast feedback
-   - Music box player + controls
+   - Music box player + controls (robust)
 */
 
 const qs = (s, e=document) => e.querySelector(s);
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!navbar) return;
     if (window.scrollY > 60) navbar.classList.add('solid'); else navbar.classList.remove('solid');
   };
-  window.addEventListener('scroll', onScroll);
+  window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
   // Smooth scroll for anchors (# links)
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Reveal animations for sections & posters
+  // Reveal animations for sections & posters (safe)
   try {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(en => {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, {threshold: 0.12});
     qsa('.section, .poster').forEach(el => obs.observe(el));
   } catch (e) {
-    // IntersectionObserver unsupported or errors — ignore
+    // ignore if unsupported
   }
 
   // Init particles (safe)
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Music box interaction (robust, defensive) ---
+  // --- Music box interaction (robust) ---
   const audio = qs('#bg-music');
   const musicBox = qs('.music-box');
   const musicHandle = qs('.music-handle');
@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
           audio.volume = parseFloat(savedVol);
           volRange.value = audio.volume;
         } else {
-          // keep the input default (if any), fallback to 0.6
           audio.volume = parseFloat(volRange.value) || audio.volume || 0.6;
           volRange.value = audio.volume;
         }
@@ -140,18 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e){ /* ignore storage errors */ }
 
-    // open on hover & click for music box handle
-    if (musicHandle && musicBox) {
-      musicHandle.addEventListener('click', () => musicBox.classList.toggle('open'));
-      musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
-      musicBox.addEventListener('mouseleave', () => {
-        if (musicPin && musicPin.getAttribute('aria-pressed') === 'true') return;
-        musicBox.classList.remove('open');
-      });
-      musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
-    }
-
-    // play/pause UI and behavior
+    // Attempt to reflect play state on load (but browsers may block autoplay)
     function updatePlayUI(){
       if (!musicPlay || !audio) return;
       const playing = !audio.paused && !audio.ended;
@@ -163,11 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.setItem('phlox_music_playing', playing ? '1' : '0'); } catch (e) {}
     }
 
-    // ensure UI reflects initial state
-    updatePlayUI();
+    // Open/close music box via handle
+    if (musicHandle && musicBox) {
+      musicHandle.addEventListener('click', () => {
+        musicBox.classList.toggle('open');
+      });
+      musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
+      musicBox.addEventListener('mouseleave', () => {
+        if (musicPin && musicPin.getAttribute('aria-pressed') === 'true') return;
+        musicBox.classList.remove('open');
+      });
+      musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
+    }
 
+    // Play/pause button
     if (musicPlay) {
-      musicPlay.addEventListener('click', (e) => {
+      musicPlay.addEventListener('click', () => {
         if (audio.paused) {
           audio.play().catch(() => { showToast('Playback blocked — interact to enable'); });
         } else {
@@ -180,6 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.addEventListener('play', updatePlayUI);
     audio.addEventListener('pause', updatePlayUI);
 
+    // Update timings when metadata loads
+    audio.addEventListener('loadedmetadata', () => {
+      if (timeDur) {
+        const fmt = s => { if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; };
+        timeDur.textContent = fmt(audio.duration);
+      }
+    });
+
     // time updates (guarded)
     audio.addEventListener('timeupdate', () => {
       if (!audio) return;
@@ -188,10 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
       function fmt(s){ if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
       if (timeCur) timeCur.textContent = fmt(audio.currentTime);
-      if (timeDur) timeDur.textContent = isFinite(audio.duration) ? fmt(audio.duration) : '0:00';
+      if (timeDur && isFinite(audio.duration)) timeDur.textContent = fmt(audio.duration);
     });
 
-    // seek on click
+    // Seek on click
     if (progressBar) {
       progressBar.addEventListener('click', (ev) => {
         const r = progressBar.getBoundingClientRect();
@@ -200,17 +207,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // volume control
+    // Volume control
     if (volRange) {
       volRange.addEventListener('input', () => {
         audio.volume = parseFloat(volRange.value);
         try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {}
       });
-      // ensure input reflects audio volume
       volRange.value = audio.volume;
     }
 
-    // pin toggle
+    // Pin toggle
     if (musicPin) {
       musicPin.addEventListener('click', () => {
         const pinned = musicPin.getAttribute('aria-pressed') === 'true';
@@ -218,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // If user previously wanted playback, try resuming after first gesture
+    // Try to resume if user previously wanted playback (after first gesture)
     window.addEventListener('pointerdown', function resumeIfNeeded(){
       try {
         const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
@@ -226,9 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
       window.removeEventListener('pointerdown', resumeIfNeeded);
     }, { once: true });
+
+    // initial UI sync
+    updatePlayUI();
   } // end if audio
 
-  // --- Parallax PHLOX movement (simple & safe) ---
+  // --- Parallax PHLOX movement (safe) ---
   const parallaxEls = qsa('.parallax-phlox');
   if (parallaxEls.length){
     let ticking = false;
