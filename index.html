@@ -17,11 +17,10 @@
       </a>
 
       <nav class="nav" role="navigation" aria-label="Main">
-        <a href="#features">Features</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#news">News</a>
-        <a href="#community" class="nav-cta">Community</a>
-        <button id="account-open" class="btn btn-outline nav-account" aria-haspopup="dialog">Account</button>
+        <button class="nav-link" data-scroll="#features">Features</button>
+        <button class="nav-link" data-scroll="#gallery">Gallery</button>
+        <button class="nav-link" data-scroll="#community">Connect</button>
+        <button id="account-open" class="nav-link">Account</button>
       </nav>
 
       <div class="header-actions">
@@ -56,11 +55,7 @@
             </div>
           </div>
         </div>
-
-        <aside class="hero-card" aria-hidden="false">
-          <img src="assets/hero.jpg" alt="Community highlight" loading="eager" />
-          <div class="card-caption">Community Spotlight</div>
-        </aside>
+        <!-- removed the hero spotlight image (gallery covers this) -->
       </div>
     </section>
 
@@ -76,37 +71,6 @@
         <li><strong>Custom content</strong><span>Unique vehicles, skins & missions</span></li>
         <li><strong>Community driven</strong><span>Player-run events and art collabs</span></li>
       </ul>
-    </section>
-
-    <section id="news" class="section container animate-in">
-      <div class="section-head">
-        <h2 class="section-title">News & Announcements</h2>
-        <div class="section-deco"></div>
-      </div>
-
-      <div class="news-grid">
-        <article class="news-card">
-          <div class="news-meta">Aug 2026</div>
-          <h3>Server Performance Patch</h3>
-          <p>We're rolling out optimizations to reduce lag during big events. Expect smoother gameplay.</p>
-          <div class="news-actions">
-            <a class="btn tiny" href="#">Read</a>
-            <a class="btn tiny ghost" href="#">Discuss</a>
-          </div>
-        </article>
-
-        <article class="news-card">
-          <div class="news-meta">Jul 2026</div>
-          <h3>Summer RP Festival</h3>
-          <p>Join our RP festival with player-run events and prizes across the month.</p>
-          <div class="news-actions">
-            <a class="btn tiny" href="#">Read</a>
-            <a class="btn tiny ghost" href="#">Register</a>
-          </div>
-        </article>
-
-        <div class="news-spacer"></div>
-      </div>
     </section>
 
     <section id="gallery" class="section container animate-in">
@@ -147,7 +111,7 @@
       <p class="muted">Get announcements, vote in events, or ask staff on Discord.</p>
       <div class="contact-actions">
         <a class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
-        <button class="btn ghost" id="account-open-2" aria-haspopup="dialog">Account</button>
+        <button class="btn ghost" id="account-open-2">Account</button>
       </div>
     </section>
   </main>
@@ -157,7 +121,7 @@
       <div class="footer-inner">
         <div>© <span id="year"></span> PHLOX REPUBLIC</div>
         <div class="footer-links">
-          <a href="#gallery">Gallery</a>
+          <button class="btn-link nav-link" data-scroll="#gallery">Gallery</button>
           <button class="btn-link" id="account-open-3">Account</button>
         </div>
       </div>
@@ -166,7 +130,7 @@
 
   <!-- Account modal (in-page) -->
   <div id="account-modal" class="modal" role="dialog" aria-hidden="true" aria-label="Account dialog">
-    <div class="modal-content">
+    <div class="modal-content" role="document">
       <button class="modal-close" aria-label="Close">✕</button>
       <div class="modal-body">
         <h2>Account — Coming soon</h2>
@@ -188,7 +152,7 @@
     <button class="lb-next" aria-label="Next image">›</button>
   </div>
 
-  <!-- Background audio (user-triggered) -->
+  <!-- Background audio (best-effort autoplay) -->
   <audio id="bg-music" src="assets/music.mp3" loop preload="auto" aria-hidden="true"></audio>
 
   <script src="script.js"></script>
