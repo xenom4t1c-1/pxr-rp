@@ -1,4 +1,4 @@
-// defensive site script: guards, lightbox, music toggle, mobile menu, copy IP
+// Enhanced single-page script: lightbox, music toggle (saved), copy IP, account modal, entrance animations
 document.addEventListener('DOMContentLoaded', () => {
   const serverIP = "samp.pxr-rp.site:7826";
   const joinUrl = `samp://${serverIP}`;
@@ -8,34 +8,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // safe DOM getters
+  // DOM elements
   const serverIpEl = document.getElementById('server-ip');
   const joinLink = document.getElementById('join-link');
   const discordLink = document.getElementById('discord-link');
+  const scrollGallery = document.getElementById('scroll-gallery');
   if (serverIpEl) serverIpEl.textContent = serverIP;
   if (joinLink) joinLink.href = joinUrl;
   if (discordLink) discordLink.href = discordInvite;
+  if (scrollGallery) scrollGallery.addEventListener('click', ()=> document.getElementById('gallery')?.scrollIntoView({behavior:'smooth'}));
 
-  // audio control
+  // music: persist preference
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
-  if (audio && musicBtn) {
-    let playing = false;
+  let playing = false;
+  const saved = localStorage.getItem('pxr_music') === 'true';
+  if (audio) {
+    if (saved) {
+      // do not autoplay; just set state (user must click to actually play per browser rules)
+      playing = false;
+      musicBtn && musicBtn.classList.add('saved-pref');
+    }
     const setMusicBtn = () => {
+      if (!musicBtn) return;
       musicBtn.textContent = playing ? '⏸' : '▶';
       musicBtn.classList.toggle('playing', playing);
       musicBtn.setAttribute('aria-pressed', String(playing));
     };
-    musicBtn.addEventListener('click', async () => {
+    musicBtn && musicBtn.addEventListener('click', async () => {
       try {
-        if (!playing) { await audio.play(); playing = true; } else { audio.pause(); playing = false; }
+        if (!playing) { await audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } else { audio.pause(); playing = false; localStorage.setItem('pxr_music','false'); }
       } catch (err) {
-        try { audio.muted = false; audio.play(); playing = true; } catch {}
+        try { audio.muted = false; audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } catch {}
       }
       setMusicBtn();
     });
     audio.addEventListener('play', ()=> { playing = true; setMusicBtn(); });
     audio.addEventListener('pause', ()=> { playing = false; setMusicBtn(); });
+    setMusicBtn();
+  } else if (musicBtn) {
+    musicBtn.style.display = 'none';
   }
 
   // copy IP
@@ -54,16 +66,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // mobile menu
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-      const open = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!open));
-      mobileMenu.hidden = open;
-    });
+  // Account modal
+  const accountOpenButtons = Array.from(document.querySelectorAll('#account-open, #account-open-2, #account-open-3'));
+  const accountModal = document.getElementById('account-modal');
+  const modalClose = accountModal?.querySelector('.modal-close');
+  function openAccount() {
+    if (!accountModal) return;
+    accountModal.setAttribute('aria-hidden','false');
+    // trap focus (simple)
+    const first = accountModal.querySelector('button, a, input, [tabindex]') || accountModal;
+    first && first.focus();
+    document.body.style.overflow = 'hidden';
   }
+  function closeAccount() {
+    if (!accountModal) return;
+    accountModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  accountOpenButtons.forEach(b => b && b.addEventListener('click', openAccount));
+  modalClose && modalClose.addEventListener('click', closeAccount);
+  accountModal && accountModal.addEventListener('click', (e) => { if (e.target === accountModal) closeAccount(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && accountModal && accountModal.getAttribute('aria-hidden') === 'false') closeAccount(); });
 
   // Gallery lightbox
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));
@@ -75,30 +98,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const lbPrev = lightbox.querySelector('.lb-prev');
     const lbNext = lightbox.querySelector('.lb-next');
     let idx = -1;
-
     function openLightbox(i) {
       const img = galleryImgs[i];
       if (!img || !lbImage) return;
       lbImage.src = img.dataset.full || img.src;
       lbImage.alt = img.alt || '';
-      if (lbCaption) lbCaption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
+      lbCaption && (lbCaption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || '');
       lightbox.setAttribute('aria-hidden','false');
       idx = i;
       document.body.style.overflow = 'hidden';
-      setTimeout(()=> lbImage.focus?.(), 80);
+      setTimeout(()=> lbImage.focus?.(), 60);
     }
     function closeLightbox() {
       lightbox.setAttribute('aria-hidden','true');
-      if (lbImage) lbImage.src = '';
-      document.body.style.overflow = '';
+      lbImage && (lbImage.src = '');
       idx = -1;
+      document.body.style.overflow = '';
     }
     function showNext(offset) {
       if (idx === -1) return;
       const next = (idx + offset + galleryImgs.length) % galleryImgs.length;
       openLightbox(next);
     }
-
     galleryImgs.forEach((img, i) => {
       img.style.cursor = 'zoom-in';
       img.addEventListener('click', ()=> openLightbox(i));
@@ -107,8 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lbClose && lbClose.addEventListener('click', closeLightbox);
     lbPrev && lbPrev.addEventListener('click', ()=> showNext(-1));
     lbNext && lbNext.addEventListener('click', ()=> showNext(1));
-
     document.addEventListener('keydown', (e) => {
+      if (!lightbox) return;
       if (lightbox.getAttribute('aria-hidden') === 'false') {
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowRight') showNext(1);
@@ -119,7 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.setAttribute('aria-hidden','true');
   }
 
-  // unify discord links if there are other discord anchors
-  const discordEls = document.querySelectorAll('a[href^="https://discord.gg/"]');
-  discordEls.forEach(a => a.href = discordInvite);
+  // Section entrance animations using IntersectionObserver
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
+
+  // unify any discord anchors
+  document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
 });

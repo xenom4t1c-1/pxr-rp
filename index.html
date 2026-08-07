@@ -11,30 +11,22 @@
 <body>
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="PHLOX REPUBLIC home">
-        <img src="assets/logo.png" alt="PHLOX REPUBLIC logo" class="brand-logo" />
+      <a class="brand" href="#" aria-label="PHLOX REPUBLIC home">
+        <img src="assets/logo.png" alt="PHLOX REPUBLIC" class="brand-logo" />
         <span class="brand-text">PHLOX REPUBLIC</span>
       </a>
 
       <nav class="nav" role="navigation" aria-label="Main">
         <a href="#features">Features</a>
         <a href="#gallery">Gallery</a>
+        <a href="#news">News</a>
         <a href="#community" class="nav-cta">Community</a>
-        <a href="login.html" class="nav-account">Account</a>
+        <button id="account-open" class="btn btn-outline nav-account" aria-haspopup="dialog">Account</button>
       </nav>
 
       <div class="header-actions">
         <button id="music-toggle" class="icon-btn" aria-pressed="false" aria-label="Play background music">▶</button>
-        <button id="menu-toggle" class="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
-    </div>
-
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="mobile-menu" hidden>
-      <a href="#features">Features</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#community">Community</a>
-      <a href="login.html">Account</a>
     </div>
   </header>
 
@@ -45,11 +37,11 @@
       <div class="container hero-content">
         <div class="hero-left">
           <h1 class="hero-title">PHLOX REPUBLIC</h1>
-          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join our growing republic.</p>
+          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join the republic.</p>
 
           <div class="hero-actions">
-            <a id="discord-link" class="btn btn-primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
-            <a class="btn btn-ghost" href="#gallery">Explore Gallery</a>
+            <a id="discord-link" class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
+            <button class="btn ghost" id="scroll-gallery">Explore Gallery</button>
           </div>
 
           <div class="server-cta" aria-label="Server">
@@ -60,19 +52,19 @@
             </div>
             <div class="server-actions">
               <button id="copy-addr" class="btn small">Copy</button>
-              <a id="join-link" class="btn small btn-primary" href="samp://samp.pxr-rp.site:7826">Join</a>
+              <a id="join-link" class="btn small primary" href="samp://samp.pxr-rp.site:7826">Join</a>
             </div>
           </div>
         </div>
 
-        <aside class="hero-card" aria-label="Highlight">
-          <img src="assets/her.jpg" alt="Community highlight" loading="eager" />
+        <aside class="hero-card" aria-hidden="false">
+          <img src="assets/hero.jpg" alt="Community highlight" loading="eager" />
           <div class="card-caption">Community Spotlight</div>
         </aside>
       </div>
     </section>
 
-    <section id="features" class="section container">
+    <section id="features" class="section container animate-in">
       <div class="section-head">
         <h2 class="section-title">Why play with us</h2>
         <div class="section-deco"></div>
@@ -86,42 +78,76 @@
       </ul>
     </section>
 
-    <section id="gallery" class="section container">
+    <section id="news" class="section container animate-in">
+      <div class="section-head">
+        <h2 class="section-title">News & Announcements</h2>
+        <div class="section-deco"></div>
+      </div>
+
+      <div class="news-grid">
+        <article class="news-card">
+          <div class="news-meta">Aug 2026</div>
+          <h3>Server Performance Patch</h3>
+          <p>We're rolling out optimizations to reduce lag during big events. Expect smoother gameplay.</p>
+          <div class="news-actions">
+            <a class="btn tiny" href="#">Read</a>
+            <a class="btn tiny ghost" href="#">Discuss</a>
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-meta">Jul 2026</div>
+          <h3>Summer RP Festival</h3>
+          <p>Join our RP festival with player-run events and prizes across the month.</p>
+          <div class="news-actions">
+            <a class="btn tiny" href="#">Read</a>
+            <a class="btn tiny ghost" href="#">Register</a>
+          </div>
+        </article>
+
+        <div class="news-spacer"></div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section container animate-in">
       <div class="section-head">
         <h2 class="section-title">Gallery</h2>
         <div class="section-deco"></div>
       </div>
       <p class="muted">Moments and posters from the republic.</p>
+
       <div class="gallery-grid" id="gallery-grid">
-        <!-- Use wrapper to enforce 16:9 reliably -->
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster1.png" alt="Poster 1" loading="lazy" data-full="assets/poster1.png"></div>
+          <div class="img-wrap"><img src="assets/poster1.jpg" alt="Poster 1" loading="lazy" data-full="assets/poster1.jpg"></div>
           <figcaption>Poster 1</figcaption>
         </figure>
+
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster2.png" alt="Poster 2" loading="lazy" data-full="assets/poster2.png"></div>
+          <div class="img-wrap"><img src="assets/poster2.jpg" alt="Poster 2" loading="lazy" data-full="assets/poster2.jpg"></div>
           <figcaption>Poster 2</figcaption>
         </figure>
+
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster3.png" alt="Poster 3" loading="lazy" data-full="assets/poster3.png"></div>
+          <div class="img-wrap"><img src="assets/poster3.jpg" alt="Poster 3" loading="lazy" data-full="assets/poster3.jpg"></div>
           <figcaption>Poster 3</figcaption>
         </figure>
+
         <figure class="gallery-item large">
-          <div class="img-wrap"><img src="assets/her.jpg" alt="Community Highlight" loading="lazy" data-full="assets/her.jpg"></div>
+          <div class="img-wrap"><img src="assets/hero.jpg" alt="Community highlight" loading="lazy" data-full="assets/hero.jpg"></div>
           <figcaption>Community Highlight</figcaption>
         </figure>
       </div>
     </section>
 
-    <section id="community" class="section container">
+    <section id="community" class="section container animate-in">
       <div class="section-head">
         <h2 class="section-title">Connect</h2>
         <div class="section-deco"></div>
       </div>
       <p class="muted">Get announcements, vote in events, or ask staff on Discord.</p>
       <div class="contact-actions">
-        <a class="btn btn-primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
-        <a class="btn btn-outline" href="login.html">Account</a>
+        <a class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
+        <button class="btn ghost" id="account-open-2" aria-haspopup="dialog">Account</button>
       </div>
     </section>
   </main>
@@ -132,13 +158,28 @@
         <div>© <span id="year"></span> PHLOX REPUBLIC</div>
         <div class="footer-links">
           <a href="#gallery">Gallery</a>
-          <a href="login.html">Account</a>
+          <button class="btn-link" id="account-open-3">Account</button>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- lightbox: hidden by default via aria-hidden -->
+  <!-- Account modal (in-page) -->
+  <div id="account-modal" class="modal" role="dialog" aria-hidden="true" aria-label="Account dialog">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-body">
+        <h2>Account — Coming soon</h2>
+        <p class="muted">Account where players will manage their in-game items, inventory and preferences. We're building a secure dashboard so you can view and control items tied to your in-game account.</p>
+        <div class="modal-actions">
+          <button class="btn primary" disabled>Sign in (coming soon)</button>
+          <a class="btn ghost" href="https://discord.gg/aFg2fywWha" target="_blank">Join Discord</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- lightbox -->
   <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
     <button class="lb-close" aria-label="Close (Esc)">&times;</button>
     <img class="lb-image" alt="" tabindex="-1">
