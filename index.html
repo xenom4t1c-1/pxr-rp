@@ -9,7 +9,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  <meta name="description" content="Phlox Republic Roleplay — A high-stakes world where every choice echoes." />
+  <meta name="description" content="Phlox Republic Roleplay — immersive SA:MP roleplay." />
 </head>
 <body id="top">
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
@@ -28,75 +28,89 @@
   </header>
 
   <main>
-    <!-- HERO with community.gif as main background -->
+    <!-- HERO (uses community.gif as full background) -->
     <section id="home" class="hero" data-hero="assets/community.gif" aria-label="Phlox landing">
       <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-overlay"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
       <canvas id="particles" class="particles" aria-hidden="true"></canvas>
 
       <div class="hero-inner container">
         <h1 class="hero-prime parallax-phlox">PHLOX</h1>
-        <div class="hero-subline"><span class="sub-wrap">- REPUBLIC -</span><span class="sub-role">ROLEPLAY</span></div>
+        <div class="hero-subline"><span class="sub-text">-REPUBLIC-</span><span class="sub-role">ROLEPLAY</span></div>
 
         <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
 
         <div class="hero-actions">
-          <a class="cta primary" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
-          <a class="cta ghost" href="https://discord.gg/" target="_blank" rel="noopener">JOIN DISCORD</a>
+          <a class="btn btn-play" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
+          <a class="btn btn-ghost" href="https://discord.gg/" target="_blank" rel="noopener">JOIN DISCORD</a>
         </div>
       </div>
     </section>
 
-    <!-- Welcome / Features -->
+    <!-- FEATURES -->
     <section id="welcome" class="section container centered">
-      <h2 class="section-title">WELCOME TO PHLOX REPUBLIC</h2>
+      <h2 class="section-title">WELCOME TO PHLOX</h2>
       <p class="lead">Immersive, unforgiving roleplay where economy, factions and player-driven stories matter. Choose your path — join a crew, run a business, or rise to power.</p>
 
       <div class="feature-cards">
         <article class="card">
           <div class="card-icon">🏛️</div>
-          <div class="card-body"><h3>REALISTIC ECONOMY</h3><p>Player-led markets, businesses, and meaningful value.</p></div>
+          <div class="card-body"><h3>REALISTIC ECONOMY</h3><p>Player-owned businesses and meaningful value.</p></div>
         </article>
+
         <article class="card">
           <div class="card-icon">⚔️</div>
-          <div class="card-body"><h3>HARDCORE RP</h3><p>Consequences matter — your choices follow you.</p></div>
+          <div class="card-body"><h3>HARDCORE RP</h3><p>Consequences matter — griefing and meta-gaming are not tolerated.</p></div>
         </article>
+
         <article class="card">
           <div class="card-icon">🧭</div>
-          <div class="card-body"><h3>DYNAMIC FACTIONS</h3><p>Turf, politics, and player-driven conflict.</p></div>
+          <div class="card-body"><h3>DYNAMIC FACTIONS</h3><p>Turf, politics, and emergent conflict driven by players.</p></div>
         </article>
       </div>
     </section>
 
-    <!-- CHOOSE YOUR PATH (single row of 4 posters) -->
+    <!-- CHOOSE YOUR PATH (4 across) -->
     <section id="path" class="section dark container">
       <h2 class="section-title">CHOOSE YOUR PATH</h2>
       <p class="lead">Four aspects of life in the city — find where you belong.</p>
 
       <div class="posters-grid">
-        <figure class="poster" tabindex="0">
+        <figure class="poster" tabindex="0" data-title="COMMUNITY">
           <img src="assets/hero.jpg" alt="Community">
-          <figcaption><h3>COMMUNITY</h3><p>Events, meetups and roleplay moments driven by players.</p></figcaption>
+          <figcaption>
+            <h3>COMMUNITY</h3>
+            <p>Events, meetups and roleplay moments driven by players.</p>
+          </figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0">
+        <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
           <img src="assets/poster1.jpg" alt="Law Enforcement">
-          <figcaption><h3>LAW ENFORCEMENT</h3><p>Uphold order — protect or control the city.</p></figcaption>
+          <figcaption>
+            <h3>LAW ENFORCEMENT</h3>
+            <p>Uphold order — protect or control the city.</p>
+          </figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0">
+        <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
           <img src="assets/poster2.jpg" alt="The Underworld">
-          <figcaption><h3>THE UNDERWORLD</h3><p>Syndicates, smuggling and turf wars.</p></figcaption>
+          <figcaption>
+            <h3>THE UNDERWORLD</h3>
+            <p>Syndicates, smuggling and turf wars.</p>
+          </figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0">
+        <figure class="poster" tabindex="0" data-title="STREET LIFE">
           <img src="assets/poster3.jpg" alt="Street Life">
-          <figcaption><h3>STREET LIFE</h3><p>Businesses, crews and surviving on the streets.</p></figcaption>
+          <figcaption>
+            <h3>STREET LIFE</h3>
+            <p>Businesses, crews and surviving on the streets.</p>
+          </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- High stakes + Start flow -->
+    <!-- STAKES -->
     <section id="stakes" class="section container split">
       <div class="split-media"><img src="assets/poster3.jpg" alt="Stakes image"></div>
       <div class="split-content">
@@ -106,13 +120,14 @@
         <ul class="features-list">
           <li>Player-run businesses</li>
           <li>Faction warfare & politics</li>
-          <li>In-depth vehicle & economy systems</li>
+          <li>Vehicle & economy systems</li>
         </ul>
 
         <a class="link-cta" href="https://discord.gg/">READ THE RULES</a>
       </div>
     </section>
 
+    <!-- START FLOW & DIRECT CONNECT -->
     <section id="start-flow" class="section container">
       <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
       <div class="start-flow">
@@ -127,30 +142,37 @@
         <div class="direct-label">DIRECT CONNECT</div>
         <div class="direct-ip">samp.pxr-rp.site:7826</div>
         <div class="direct-actions">
-          <a class="btn big-launch" href="samp://samp.pxr-rp.site:7826">LAUNCH GAME</a>
+          <a class="btn btn-launch" href="samp://samp.pxr-rp.site:7826">LAUNCH GAME</a>
           <a class="btn btn-outline" href="https://discord.gg/">JOIN DISCORD</a>
         </div>
-        <button class="copy-ip" data-ip="samp.pxr-rp.site:7826">COPY IP</button>
+        <button class="copy-ip copy-ip-large" data-ip="samp.pxr-rp.site:7826">COPY IP</button>
       </div>
     </section>
 
   </main>
 
-  <!-- audio + music box -->
+  <!-- MUSIC -->
   <audio id="bg-music" src="assets/music.mp3" preload="auto" loop crossorigin="anonymous"></audio>
 
   <div class="music-box" aria-label="Music player">
-    <button class="music-handle" aria-label="Open music player">♪</button>
-    <div class="music-panel">
+    <button class="music-handle" aria-label="Open music player">🎵</button>
+    <div class="music-panel" role="region" aria-label="Music controls">
       <div class="music-meta">
         <div class="music-title">Phlox Theme</div>
-        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play">▶︎</button>
+        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play/Pause">▶</button>
       </div>
+
       <div class="music-progress">
-        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="music-progress-filled"></div></div>
+        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="music-progress-filled"></div>
+        </div>
         <div class="music-time"><span class="cur">0:00</span> / <span class="dur">0:00</span></div>
       </div>
-      <div class="music-opts"><input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume"><button id="music-pin" aria-pressed="false">📌</button></div>
+
+      <div class="music-opts">
+        <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+        <button id="music-pin" class="music-pin" aria-pressed="false" aria-label="Pin music player">📌</button>
+      </div>
     </div>
   </div>
 
