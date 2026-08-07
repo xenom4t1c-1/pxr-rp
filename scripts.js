@@ -7,7 +7,7 @@
    - Reveal on scroll (IntersectionObserver)
    - Particles (lightweight) with resize handling
    - Copy IP + toast (clipboard API + fallback)
-   - Music player: play/pause, progress, seek, volume, pin, saved prefs, resume-on-gesture
+   - Music player: play/pause, progress, seek, volume, pin, saved prefs, resume-on-gesture + diagnostics
    - Parallax PHLOX motion (lightweight)
 */
 
@@ -134,6 +134,30 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.setItem('phlox_music_playing', playing ? '1' : '0'); } catch (e){}
     }
 
+    // Diagnostic: audio load/play errors
+    audio.addEventListener('error', (e) => {
+      console.error('Audio element error', e, audio.src);
+      showToast('Audio failed to load');
+    });
+
+    // Utility to attempt play with diagnostics
+    async function tryPlayAudio(){
+      try {
+        // ensure metadata loads
+        if (audio.readyState < 2) {
+          try { audio.load(); } catch (e) { /* ignore */ }
+        }
+        await audio.play();
+        return true;
+      } catch (err) {
+        console.error('Audio play failed', err);
+        // If the error has a name, include it
+        const msg = (err && err.name) ? `Playback blocked (${err.name})` : 'Playback blocked — interact to enable';
+        showToast(msg);
+        return false;
+      }
+    }
+
     // Handle open/close
     if (musicHandle && musicBox) {
       musicHandle.addEventListener('click', () => musicBox.classList.toggle('open'));
@@ -147,11 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Play/pause
     if (musicPlay){
-      musicPlay.addEventListener('click', () => {
+      musicPlay.addEventListener('click', async () => {
         if (audio.paused) {
-          audio.play().catch((err) => {
-            showToast('Playback blocked — interact to enable');
-          });
+          await tryPlayAudio();
         } else {
           audio.pause();
         }
@@ -202,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('pointerdown', function resumeIfNeeded(){
       try {
         const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
-        if (savedPlay && audio.paused) audio.play().catch(()=>{});
+        if (savedPlay && audio.paused) tryPlayAudio().catch(()=>{});
       } catch (e){}
       window.removeEventListener('pointerdown', resumeIfNeeded);
     }, { once: true });
