@@ -12,7 +12,7 @@
   <meta name="description" content="Phlox Republic Roleplay — immersive SA:MP roleplay." />
 </head>
 <body id="top">
-  <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
+  <div id="preloader" aria-hidden="true"><div class="spinner" aria-hidden="true"></div></div>
 
   <header id="navbar" class="navbar" role="banner">
     <div class="container nav-inner">
@@ -28,15 +28,15 @@
   </header>
 
   <main>
-    <!-- HERO (uses community.gif as full background) -->
+    <!-- HERO: community.gif as full background via CSS variable -->
     <section id="home" class="hero" data-hero="assets/community.gif" aria-label="Phlox landing">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-overlay" aria-hidden="true"></div>
       <canvas id="particles" class="particles" aria-hidden="true"></canvas>
 
       <div class="hero-inner container">
-        <h1 class="hero-prime parallax-phlox">PHLOX</h1>
-        <div class="hero-subline"><span class="sub-text">-REPUBLIC-</span><span class="sub-role">ROLEPLAY</span></div>
+        <h1 class="hero-prime parallax-phlox" aria-label="PHLOX">PHLOX</h1>
+        <div class="hero-subline"><span class="sub-text">- REPUBLIC -</span><span class="sub-role">ROLEPLAY</span></div>
 
         <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
 
@@ -54,17 +54,17 @@
 
       <div class="feature-cards">
         <article class="card">
-          <div class="card-icon">🏛️</div>
+          <div class="card-icon" aria-hidden="true">🏛️</div>
           <div class="card-body"><h3>REALISTIC ECONOMY</h3><p>Player-owned businesses and meaningful value.</p></div>
         </article>
 
         <article class="card">
-          <div class="card-icon">⚔️</div>
+          <div class="card-icon" aria-hidden="true">⚔️</div>
           <div class="card-body"><h3>HARDCORE RP</h3><p>Consequences matter — griefing and meta-gaming are not tolerated.</p></div>
         </article>
 
         <article class="card">
-          <div class="card-icon">🧭</div>
+          <div class="card-icon" aria-hidden="true">🧭</div>
           <div class="card-body"><h3>DYNAMIC FACTIONS</h3><p>Turf, politics, and emergent conflict driven by players.</p></div>
         </article>
       </div>
@@ -77,7 +77,7 @@
 
       <div class="posters-grid">
         <figure class="poster" tabindex="0" data-title="COMMUNITY">
-          <img src="assets/hero.jpg" alt="Community">
+          <img src="assets/hero.jpg" alt="Community poster">
           <figcaption>
             <h3>COMMUNITY</h3>
             <p>Events, meetups and roleplay moments driven by players.</p>
@@ -85,7 +85,7 @@
         </figure>
 
         <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
-          <img src="assets/poster1.jpg" alt="Law Enforcement">
+          <img src="assets/poster1.jpg" alt="Law Enforcement poster">
           <figcaption>
             <h3>LAW ENFORCEMENT</h3>
             <p>Uphold order — protect or control the city.</p>
@@ -93,7 +93,7 @@
         </figure>
 
         <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
-          <img src="assets/poster2.jpg" alt="The Underworld">
+          <img src="assets/poster2.jpg" alt="The Underworld poster">
           <figcaption>
             <h3>THE UNDERWORLD</h3>
             <p>Syndicates, smuggling and turf wars.</p>
@@ -101,7 +101,7 @@
         </figure>
 
         <figure class="poster" tabindex="0" data-title="STREET LIFE">
-          <img src="assets/poster3.jpg" alt="Street Life">
+          <img src="assets/poster3.jpg" alt="Street Life poster">
           <figcaption>
             <h3>STREET LIFE</h3>
             <p>Businesses, crews and surviving on the streets.</p>
@@ -145,7 +145,7 @@
           <a class="btn btn-launch" href="samp://samp.pxr-rp.site:7826">LAUNCH GAME</a>
           <a class="btn btn-outline" href="https://discord.gg/">JOIN DISCORD</a>
         </div>
-        <button class="copy-ip copy-ip-large" data-ip="samp.pxr-rp.site:7826">COPY IP</button>
+        <button class="copy-ip copy-ip-large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy server IP">COPY IP</button>
       </div>
     </section>
 
