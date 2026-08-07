@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>404 — Page not found — PHLOX REPUBLIC</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:,">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="brand-logo" />
+        <span class="brand-text">PHLOX REPUBLIC</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="login.html" class="nav-cta">Account</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="error-page">
+      <div class="error-card">
+        <div class="error-top" style="display:flex;align-items:center;justify-content:center;gap:18px">
+          <div class="error-code">404</div>
+          <div style="text-align:left">
+            <h2 class="error-title">Page not found</h2>
+            <p class="error-desc muted">Looks like the page you're looking for doesn't exist. Let's get you back to the republic.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-primary" href="index.html">Return home</a>
+          <a class="btn btn-outline" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
+          <a class="btn" href="samp://samp.pxr-rp.site:7826">Join server</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> PHLOX REPUBLIC</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+</body>
+</html>
