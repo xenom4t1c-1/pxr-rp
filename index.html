@@ -11,10 +11,13 @@
 <body>
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a class="brand" href="#" aria-label="PHLOX REPUBLIC home">
-        <img src="assets/logo.png" alt="PHLOX REPUBLIC" class="brand-logo" />
-        <span class="brand-text">PHLOX REPUBLIC</span>
-      </a>
+      <div class="header-left">
+        <a class="brand" href="#" aria-label="PHLOX REPUBLIC home">
+          <img src="assets/logo.png" alt="PHLOX REPUBLIC" class="brand-logo" />
+          <span class="brand-text">PHLOX REPUBLIC</span>
+        </a>
+        <div class="status-pill">Server: samp.pxr-rp.site:7826</div>
+      </div>
 
       <nav class="nav" role="navigation" aria-label="Main">
         <button class="nav-link" data-scroll="#features">Features</button>
@@ -36,7 +39,7 @@
       <div class="container hero-content">
         <div class="hero-left">
           <h1 class="hero-title">PHLOX REPUBLIC</h1>
-          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join the republic.</p>
+          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join the republic and play with a welcoming community.</p>
 
           <div class="hero-actions">
             <a id="discord-link" class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
@@ -55,7 +58,8 @@
             </div>
           </div>
         </div>
-        <!-- removed the hero spotlight image (gallery covers this) -->
+
+        <!-- hero visual left intentionally without duplicate spotlight image -->
       </div>
     </section>
 
@@ -64,41 +68,53 @@
         <h2 class="section-title">Why play with us</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="muted">Tuned for smooth roleplay and community events.</p>
+      <p class="section-sub muted">Roleplay-first, stable servers and a community that runs events together. Here are some highlights:</p>
       <ul class="features-grid">
-        <li><strong>Stable performance</strong><span>Optimized maps & scripts for smooth play</span></li>
-        <li><strong>Active staff</strong><span>Fast support and regular events</span></li>
-        <li><strong>Custom content</strong><span>Unique vehicles, skins & missions</span></li>
-        <li><strong>Community driven</strong><span>Player-run events and art collabs</span></li>
+        <li><strong>Stable performance</strong><span class="muted">Optimized maps & scripts for smoother play during events.</span></li>
+        <li><strong>Active staff</strong><span class="muted">Responsive staff and fair moderation.</span></li>
+        <li><strong>Custom content</strong><span class="muted">Unique vehicles, skins & missions designed by the community.</span></li>
+        <li><strong>Community driven</strong><span class="muted">Player-run events, artwork contests, and more.</span></li>
       </ul>
     </section>
 
     <section id="gallery" class="section container animate-in">
       <div class="section-head">
-        <h2 class="section-title">Gallery</h2>
+        <h2 class="section-title">Gallery — Posters & Moments</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="muted">Moments and posters from the republic.</p>
+      <p class="section-sub muted">Visuals from events, community posters and highlights — click any image to view larger.</p>
 
       <div class="gallery-grid" id="gallery-grid">
         <figure class="gallery-item">
           <div class="img-wrap"><img src="assets/poster1.jpg" alt="Poster 1" loading="lazy" data-full="assets/poster1.jpg"></div>
-          <figcaption>Poster 1</figcaption>
+          <div class="gallery-meta">
+            <div class="gallery-title">City Night Poster</div>
+            <div class="gallery-desc muted">A night-time event poster showing the city skyline and event details.</div>
+          </div>
         </figure>
 
         <figure class="gallery-item">
           <div class="img-wrap"><img src="assets/poster2.jpg" alt="Poster 2" loading="lazy" data-full="assets/poster2.jpg"></div>
-          <figcaption>Poster 2</figcaption>
+          <div class="gallery-meta">
+            <div class="gallery-title">Summer RP Festival</div>
+            <div class="gallery-desc muted">Artwork for the summer festival — races, treasure hunts and RP scenarios.</div>
+          </div>
         </figure>
 
         <figure class="gallery-item">
           <div class="img-wrap"><img src="assets/poster3.jpg" alt="Poster 3" loading="lazy" data-full="assets/poster3.jpg"></div>
-          <figcaption>Poster 3</figcaption>
+          <div class="gallery-meta">
+            <div class="gallery-title">Community Collab</div>
+            <div class="gallery-desc muted">Player-made poster showcasing a community collaboration.</div>
+          </div>
         </figure>
 
         <figure class="gallery-item large">
           <div class="img-wrap"><img src="assets/hero.jpg" alt="Community highlight" loading="lazy" data-full="assets/hero.jpg"></div>
-          <figcaption>Community Highlight</figcaption>
+          <div class="gallery-meta">
+            <div class="gallery-title">Featured: Community Highlight</div>
+            <div class="gallery-desc muted">A memorable moment captured during a live RP event — players, drama and prizes.</div>
+          </div>
         </figure>
       </div>
     </section>
@@ -108,7 +124,7 @@
         <h2 class="section-title">Connect</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="muted">Get announcements, vote in events, or ask staff on Discord.</p>
+      <p class="section-sub muted">Get announcements, vote in events, or ask staff on Discord. Most activity happens there.</p>
       <div class="contact-actions">
         <a class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
         <button class="btn ghost" id="account-open-2">Account</button>
@@ -120,10 +136,6 @@
     <div class="container">
       <div class="footer-inner">
         <div>© <span id="year"></span> PHLOX REPUBLIC</div>
-        <div class="footer-links">
-          <button class="btn-link nav-link" data-scroll="#gallery">Gallery</button>
-          <button class="btn-link" id="account-open-3">Account</button>
-        </div>
       </div>
     </div>
   </footer>
@@ -152,7 +164,7 @@
     <button class="lb-next" aria-label="Next image">›</button>
   </div>
 
-  <!-- Background audio (best-effort autoplay) -->
+  <!-- Background audio (best-effort autoplay attempt) -->
   <audio id="bg-music" src="assets/music.mp3" loop preload="auto" aria-hidden="true"></audio>
 
   <script src="script.js"></script>
