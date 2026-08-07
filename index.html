@@ -12,7 +12,7 @@
   <header class="site-header" role="banner">
     <div class="container header-inner">
       <a class="brand" href="index.html" aria-label="PHLOX REPUBLIC home">
-        <img src="assets/logo.png" alt="" class="brand-logo" />
+        <img src="assets/logo.png" alt="PHLOX REPUBLIC logo" class="brand-logo" />
         <span class="brand-text">PHLOX REPUBLIC</span>
       </a>
 
@@ -93,10 +93,23 @@
       </div>
       <p class="muted">Moments and posters from the republic.</p>
       <div class="gallery-grid" id="gallery-grid">
-        <figure class="gallery-item"><img src="assets/poster1.png" alt="Poster 1" loading="lazy" data-full="assets/poster1.png"><figcaption>Poster 1</figcaption></figure>
-        <figure class="gallery-item"><img src="assets/poster2.png" alt="Poster 2" loading="lazy" data-full="assets/poster2.png"><figcaption>Poster 2</figcaption></figure>
-        <figure class="gallery-item"><img src="assets/poster3.png" alt="Poster 3" loading="lazy" data-full="assets/poster3.png"><figcaption>Poster 3</figcaption></figure>
-        <figure class="gallery-item large"><img src="assets/her.jpg" alt="Community Highlight" loading="lazy" data-full="assets/her.jpg"><figcaption>Community Highlight</figcaption></figure>
+        <!-- Use wrapper to enforce 16:9 reliably -->
+        <figure class="gallery-item">
+          <div class="img-wrap"><img src="assets/poster1.png" alt="Poster 1" loading="lazy" data-full="assets/poster1.png"></div>
+          <figcaption>Poster 1</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <div class="img-wrap"><img src="assets/poster2.png" alt="Poster 2" loading="lazy" data-full="assets/poster2.png"></div>
+          <figcaption>Poster 2</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <div class="img-wrap"><img src="assets/poster3.png" alt="Poster 3" loading="lazy" data-full="assets/poster3.png"></div>
+          <figcaption>Poster 3</figcaption>
+        </figure>
+        <figure class="gallery-item large">
+          <div class="img-wrap"><img src="assets/her.jpg" alt="Community Highlight" loading="lazy" data-full="assets/her.jpg"></div>
+          <figcaption>Community Highlight</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -125,7 +138,7 @@
     </div>
   </footer>
 
-  <!-- lightbox: hidden by default -->
+  <!-- lightbox: hidden by default via aria-hidden -->
   <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
     <button class="lb-close" aria-label="Close (Esc)">&times;</button>
     <img class="lb-image" alt="" tabindex="-1">
