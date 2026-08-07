@@ -1,4 +1,4 @@
-// Enhanced single-page script: lightbox, music toggle (saved), copy IP, account modal, entrance animations
+// Single-page script: robust handlers, smooth scroll without changing URL, autoplay best-effort, lightbox, modal
 document.addEventListener('DOMContentLoaded', () => {
   const serverIP = "samp.pxr-rp.site:7826";
   const joinUrl = `samp://${serverIP}`;
@@ -8,44 +8,84 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // DOM elements
+  // set elements
   const serverIpEl = document.getElementById('server-ip');
   const joinLink = document.getElementById('join-link');
   const discordLink = document.getElementById('discord-link');
-  const scrollGallery = document.getElementById('scroll-gallery');
   if (serverIpEl) serverIpEl.textContent = serverIP;
   if (joinLink) joinLink.href = joinUrl;
   if (discordLink) discordLink.href = discordInvite;
-  if (scrollGallery) scrollGallery.addEventListener('click', ()=> document.getElementById('gallery')?.scrollIntoView({behavior:'smooth'}));
 
-  // music: persist preference
+  // smooth-scroll without changing URL
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-scroll]');
+    if (!btn) return;
+    e.preventDefault();
+    const sel = btn.getAttribute('data-scroll');
+    const target = document.querySelector(sel);
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    // do NOT update location.hash — keep URL clean
+  });
+
+  // scroll-gallery helper
+  const scrollGallery = document.getElementById('scroll-gallery');
+  scrollGallery && scrollGallery.addEventListener('click', () => {
+    document.getElementById('gallery')?.scrollIntoView({behavior:'smooth'});
+  });
+
+  // background music: best-effort autoplay (muted start), show play control if blocked
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   let playing = false;
-  const saved = localStorage.getItem('pxr_music') === 'true';
+
+  function updateMusicUI() {
+    if (!musicBtn) return;
+    musicBtn.textContent = playing ? '⏸' : '▶';
+    musicBtn.classList.toggle('playing', playing);
+    musicBtn.setAttribute('aria-pressed', String(playing));
+  }
+
   if (audio) {
+    // try autoplay muted first
+    audio.muted = true;
+    audio.play().then(()=> {
+      // autoplay succeeded (muted). attempt to unmute after short delay (may still be blocked)
+      setTimeout(() => {
+        try { audio.muted = false; } catch {}
+      }, 700);
+    }).catch(()=> {
+      // autoplay rejected — leave muted and show button for user
+    });
+
+    // if user has previously allowed playback, try to resume unmuted
+    const saved = localStorage.getItem('pxr_music') === 'true';
     if (saved) {
-      // do not autoplay; just set state (user must click to actually play per browser rules)
-      playing = false;
-      musicBtn && musicBtn.classList.add('saved-pref');
+      // do not force unmute; only attempt
+      audio.play().catch(()=>{});
     }
-    const setMusicBtn = () => {
-      if (!musicBtn) return;
-      musicBtn.textContent = playing ? '⏸' : '▶';
-      musicBtn.classList.toggle('playing', playing);
-      musicBtn.setAttribute('aria-pressed', String(playing));
-    };
+
     musicBtn && musicBtn.addEventListener('click', async () => {
       try {
-        if (!playing) { await audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } else { audio.pause(); playing = false; localStorage.setItem('pxr_music','false'); }
+        if (!playing) {
+          await audio.play();
+          audio.muted = false;
+          playing = true;
+          localStorage.setItem('pxr_music','true');
+        } else {
+          audio.pause();
+          playing = false;
+          localStorage.setItem('pxr_music','false');
+        }
       } catch (err) {
-        try { audio.muted = false; audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } catch {}
+        // fallback: try toggling muted + play
+        try { audio.muted = false; await audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } catch {}
       }
-      setMusicBtn();
+      updateMusicUI();
     });
-    audio.addEventListener('play', ()=> { playing = true; setMusicBtn(); });
-    audio.addEventListener('pause', ()=> { playing = false; setMusicBtn(); });
-    setMusicBtn();
+
+    audio.addEventListener('play', ()=> { playing = true; updateMusicUI(); });
+    audio.addEventListener('pause', ()=> { playing = false; updateMusicUI(); });
+    updateMusicUI();
   } else if (musicBtn) {
     musicBtn.style.display = 'none';
   }
@@ -66,14 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Account modal
+  // Account modal (in-page)
   const accountOpenButtons = Array.from(document.querySelectorAll('#account-open, #account-open-2, #account-open-3'));
   const accountModal = document.getElementById('account-modal');
   const modalClose = accountModal?.querySelector('.modal-close');
   function openAccount() {
     if (!accountModal) return;
     accountModal.setAttribute('aria-hidden','false');
-    // trap focus (simple)
     const first = accountModal.querySelector('button, a, input, [tabindex]') || accountModal;
     first && first.focus();
     document.body.style.overflow = 'hidden';
@@ -88,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   accountModal && accountModal.addEventListener('click', (e) => { if (e.target === accountModal) closeAccount(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && accountModal && accountModal.getAttribute('aria-hidden') === 'false') closeAccount(); });
 
-  // Gallery lightbox
+  // Lightbox
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));
   const lightbox = document.getElementById('lightbox');
   if (lightbox && galleryImgs.length) {
@@ -140,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.setAttribute('aria-hidden','true');
   }
 
-  // Section entrance animations using IntersectionObserver
+  // Section entrance animations
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -151,6 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {threshold: 0.12});
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  // unify any discord anchors
+  // unify discord anchors
   document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
 });
