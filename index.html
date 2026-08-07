@@ -16,7 +16,6 @@
           <img src="assets/logo.png" alt="PHLOX REPUBLIC" class="brand-logo" />
           <span class="brand-text">PHLOX REPUBLIC</span>
         </a>
-        <div class="status-pill">Server: samp.pxr-rp.site:7826</div>
       </div>
 
       <nav class="nav" role="navigation" aria-label="Main">
@@ -43,23 +42,17 @@
 
           <div class="hero-actions">
             <a id="discord-link" class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
-            <button class="btn ghost" id="scroll-gallery">Explore Gallery</button>
+            <button class="btn ghost" id="play-btn" data-scroll="#community">Play</button>
           </div>
 
-          <div class="server-cta" aria-label="Server">
-            <div class="server-info">
-              <div class="server-label">Server IP</div>
-              <div class="server-ip" id="server-ip">samp.pxr-rp.site:7826</div>
-              <div class="server-sub muted">Uptime, players and live events on Discord</div>
-            </div>
-            <div class="server-actions">
-              <button id="copy-addr" class="btn small">Copy</button>
-              <a id="join-link" class="btn small primary" href="samp://samp.pxr-rp.site:7826">Join</a>
-            </div>
+          <div class="hero-join" aria-label="Play actions">
+            <a id="join-link" class="btn small primary" href="samp://samp.pxr-rp.site:7826">Join Server</a>
+            <button id="copy-addr" class="btn small ghost">Copy IP</button>
           </div>
+
         </div>
 
-        <!-- hero visual left intentionally without duplicate spotlight image -->
+        <!-- empty right side (visual) intentionally removed to avoid duplication with gallery -->
       </div>
     </section>
 
@@ -68,13 +61,41 @@
         <h2 class="section-title">Why play with us</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="section-sub muted">Roleplay-first, stable servers and a community that runs events together. Here are some highlights:</p>
-      <ul class="features-grid">
-        <li><strong>Stable performance</strong><span class="muted">Optimized maps & scripts for smoother play during events.</span></li>
-        <li><strong>Active staff</strong><span class="muted">Responsive staff and fair moderation.</span></li>
-        <li><strong>Custom content</strong><span class="muted">Unique vehicles, skins & missions designed by the community.</span></li>
-        <li><strong>Community driven</strong><span class="muted">Player-run events, artwork contests, and more.</span></li>
-      </ul>
+      <p class="section-sub muted">Roleplay-first, stable servers and a community that runs events together. A few reasons players stay and come back:</p>
+
+      <div class="features-cards">
+        <article class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-body">
+            <h3>Performance</h3>
+            <p class="muted">Optimized maps and scripts to keep lag low during big events.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <div class="feature-body">
+            <h3>Active Staff</h3>
+            <p class="muted">Friendly moderation and rapid support when needed.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🚗</div>
+          <div class="feature-body">
+            <h3>Custom Content</h3>
+            <p class="muted">Vehicles, skins and missions crafted by the community.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🤝</div>
+          <div class="feature-body">
+            <h3>Community Events</h3>
+            <p class="muted">Weekly events, festivals and competitions run by players.</p>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section id="gallery" class="section container animate-in">
@@ -82,7 +103,7 @@
         <h2 class="section-title">Gallery — Posters & Moments</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="section-sub muted">Visuals from events, community posters and highlights — click any image to view larger.</p>
+      <p class="section-sub muted">Click any image to view it larger. Images are shown large for better presentation.</p>
 
       <div class="gallery-grid" id="gallery-grid">
         <figure class="gallery-item">
@@ -110,7 +131,7 @@
         </figure>
 
         <figure class="gallery-item large">
-          <div class="img-wrap"><img src="assets/hero.jpg" alt="Community highlight" loading="lazy" data-full="assets/hero.jpg"></div>
+          <div class="img-wrap"><img src="assets/community.gif" alt="Community highlight" loading="lazy" data-full="assets/community.gif"></div>
           <div class="gallery-meta">
             <div class="gallery-title">Featured: Community Highlight</div>
             <div class="gallery-desc muted">A memorable moment captured during a live RP event — players, drama and prizes.</div>
@@ -127,7 +148,7 @@
       <p class="section-sub muted">Get announcements, vote in events, or ask staff on Discord. Most activity happens there.</p>
       <div class="contact-actions">
         <a class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
-        <button class="btn ghost" id="account-open-2">Account</button>
+        <a class="btn ghost" id="play-join" href="samp://samp.pxr-rp.site:7826">Play Now</a>
       </div>
     </section>
   </main>
@@ -140,7 +161,7 @@
     </div>
   </footer>
 
-  <!-- Account modal (in-page) -->
+  <!-- Account modal (opaque) -->
   <div id="account-modal" class="modal" role="dialog" aria-hidden="true" aria-label="Account dialog">
     <div class="modal-content" role="document">
       <button class="modal-close" aria-label="Close">✕</button>
@@ -164,7 +185,7 @@
     <button class="lb-next" aria-label="Next image">›</button>
   </div>
 
-  <!-- Background audio (best-effort autoplay attempt) -->
+  <!-- Background audio (best-effort autoplay) -->
   <audio id="bg-music" src="assets/music.mp3" loop preload="auto" aria-hidden="true"></audio>
 
   <script src="script.js"></script>

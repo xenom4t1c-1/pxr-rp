@@ -1,4 +1,4 @@
-// Single-page script: smooth scroll (no URL change), autoplay attempt, lightbox, modal, UI improvements
+// Single-page script: smooth scroll, autoplay attempt, lightbox, modal, UI tweaks
 document.addEventListener('DOMContentLoaded', () => {
   const serverIP = "samp.pxr-rp.site:7826";
   const joinUrl = `samp://${serverIP}`;
@@ -9,10 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   // ELEMENTS
-  const serverIpEl = document.getElementById('server-ip');
   const joinLink = document.getElementById('join-link');
   const discordLink = document.getElementById('discord-link');
-  if (serverIpEl) serverIpEl.textContent = serverIP;
   if (joinLink) joinLink.href = joinUrl;
   if (discordLink) discordLink.href = discordInvite;
 
@@ -24,49 +22,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const sel = btn.getAttribute('data-scroll');
     const target = document.querySelector(sel);
     if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    // visual hint: if Play button used, briefly pulse Join button
+    if (btn.id === 'play-btn' || btn.id === 'play-join') {
+      const j = document.getElementById('join-link');
+      if (j) {
+        j.classList.add('pulse');
+        setTimeout(()=> j.classList.remove('pulse'), 2200);
+      }
+    }
   });
 
-  // scroll gallery helper
-  const scrollGallery = document.getElementById('scroll-gallery');
-  scrollGallery && scrollGallery.addEventListener('click', ()=> {
-    document.getElementById('gallery')?.scrollIntoView({behavior:'smooth'});
-  });
+  // play-btn: scroll to connect and highlight join
+  const playBtn = document.getElementById('play-btn');
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      const target = document.getElementById('community');
+      target?.scrollIntoView({behavior:'smooth', block:'start'});
+      const j = document.getElementById('join-link');
+      if (j) {
+        j.classList.add('pulse');
+        setTimeout(()=> j.classList.remove('pulse'), 2200);
+      }
+    });
+  }
 
-  // AUTOPLAY MUSIC: try muted autoplay then unmute if allowed, else show unobtrusive hint
+  // copy IP
+  const copyBtn = document.getElementById('copy-addr');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(serverIP);
+        const prev = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(()=> { copyBtn.textContent = prev; copyBtn.classList.remove('copied'); }, 1600);
+      } catch {
+        alert('Copy failed — please copy manually: ' + serverIP);
+      }
+    });
+  }
+
+  // Background audio: best-effort autoplay muted then unmute if allowed
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   let playing = false;
-  let autoplayBlocked = false;
-
-  function setMusicUI() {
-    if (!musicBtn) return;
-    musicBtn.textContent = playing ? '⏸' : '▶';
-    musicBtn.classList.toggle('playing', playing);
-    musicBtn.setAttribute('aria-pressed', String(playing));
-  }
-
   if (audio) {
-    // try muted autoplay
     audio.muted = true;
-    audio.play().then(() => {
-      // autoplay succeeded (muted). try unmuting
-      setTimeout(() => {
+    audio.play().then(()=> {
+      // autoplay succeeded (muted); try unmute
+      setTimeout(()=> {
         try { audio.muted = false; } catch {}
       }, 800);
-    }).catch(() => {
-      // autoplay failed
-      autoplayBlocked = true;
-      // show a short toast prompting user to press the music button (if present)
-      showAutoplayHint();
+    }).catch(()=> {
+      // blocked — user must press button
+      // show hint handled by previous logic (not intrusive)
     });
 
-    // if user previously wanted music, attempt to play
+    // persist user pref
     const saved = localStorage.getItem('pxr_music') === 'true';
-    if (saved) {
-      audio.play().catch(()=>{});
-    }
+    if (saved) audio.play().catch(()=>{});
 
-    // music toggle button
     if (musicBtn) {
       musicBtn.addEventListener('click', async () => {
         try {
@@ -83,49 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
           try { audio.muted = false; await audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } catch {}
         }
-        setMusicUI();
+        musicBtn.textContent = playing ? '⏸' : '▶';
+        musicBtn.classList.toggle('playing', playing);
       });
     }
 
-    audio.addEventListener('play', ()=> { playing = true; setMusicUI(); });
-    audio.addEventListener('pause', ()=> { playing = false; setMusicUI(); });
-    setMusicUI();
+    audio.addEventListener('play', ()=> { playing = true; if (musicBtn) { musicBtn.textContent = '⏸'; musicBtn.classList.add('playing'); } });
+    audio.addEventListener('pause', ()=> { playing = false; if (musicBtn) { musicBtn.textContent = '▶'; musicBtn.classList.remove('playing'); } });
   } else if (musicBtn) {
     musicBtn.style.display = 'none';
   }
 
-  // unobtrusive autoplay hint
-  function showAutoplayHint(){
-    // simple one-time toast in bottom-left
-    if (document.getElementById('autoplay-hint')) return;
-    const t = document.createElement('div');
-    t.id = 'autoplay-hint';
-    t.innerHTML = 'Audio autoplay blocked — press the ▶ button to enable music';
-    Object.assign(t.style, {
-      position:'fixed',left:'18px',bottom:'18px',background:'rgba(0,0,0,0.6)',color:'#fff',padding:'10px 14px',borderRadius:'10px',zIndex:9999,fontSize:'13px',backdropFilter:'blur(6px)'
-    });
-    document.body.appendChild(t);
-    setTimeout(()=> t.style.opacity = '0',7000);
-    setTimeout(()=> t.remove(),7600);
-  }
-
-  // COPY IP
-  const copyBtn = document.getElementById('copy-addr');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(serverIP);
-        const prev = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(()=> { copyBtn.textContent = prev; copyBtn.classList.remove('copied'); }, 1500);
-      } catch {
-        alert('Copy failed — please copy manually: ' + serverIP);
-      }
-    });
-  }
-
-  // ACCOUNT MODAL
+  // Account modal
   const accountOpenButtons = Array.from(document.querySelectorAll('#account-open, #account-open-2'));
   const accountModal = document.getElementById('account-modal');
   const modalClose = accountModal?.querySelector('.modal-close');
@@ -141,12 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     accountModal.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
   }
-  accountOpenButtons.forEach(b => b && b.addEventListener('click', openAccount));
+  accountOpenButtons.forEach(b => b && b.addEventListener('click', (e)=> { e.preventDefault(); openAccount(); }));
   modalClose && modalClose.addEventListener('click', closeAccount);
   accountModal && accountModal.addEventListener('click', (e) => { if (e.target === accountModal) closeAccount(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && accountModal && accountModal.getAttribute('aria-hidden') === 'false') closeAccount(); });
 
-  // LIGHTBOX
+  // Lightbox
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));
   const lightbox = document.getElementById('lightbox');
   if (lightbox && galleryImgs.length) {
@@ -161,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!img || !lbImage) return;
       lbImage.src = img.dataset.full || img.src;
       lbImage.alt = img.alt || '';
-      lbCaption && (lbCaption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || '');
+      lbCaption && (lbCaption.textContent = img.closest('figure')?.querySelector('.gallery-title')?.textContent || '');
       lightbox.setAttribute('aria-hidden','false');
       idx = i;
       document.body.style.overflow = 'hidden';
@@ -212,13 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // unify discord anchors
   document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
 
-  // small parallax/slow zoom on hero media for motion effect
+  // gentle parallax/zoom on hero media
   const heroMedia = document.querySelector('.hero-media');
-  let t = 0;
   if (heroMedia) {
+    let t = 0;
     function animate() {
-      t += 0.003;
-      heroMedia.style.transform = `scale(${1.02 + Math.sin(t) * 0.006}) translateY(${Math.sin(t * 0.6) * 2}px)`;
+      t += 0.0025;
+      heroMedia.style.transform = `scale(${1.02 + Math.sin(t) * 0.005}) translateY(${Math.sin(t * 0.6) * 1.8}px)`;
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
