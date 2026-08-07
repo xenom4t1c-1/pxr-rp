@@ -5,253 +5,161 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Phlox Republic Roleplay</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="Phlox Republic Roleplay — A high-stakes world where every choice echoes. Not just a game — a second life." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Phlox Republic Roleplay — A high-stakes world where every choice echoes." />
 </head>
-<body id="top" class="dark-theme">
+<body id="top">
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
 
-  <!-- NAV -->
-  <header id="navbar" class="navbar">
+  <header id="navbar" class="navbar" role="banner">
     <div class="container nav-inner">
-      <a class="brand" href="#home" aria-label="Phlox Republic Roleplay">
-        <img src="assets/logo.png" alt="Phlox Republic Logo" class="brand-logo">
+      <a class="brand" href="#home" aria-label="Phlox Republic">
+        <img src="assets/logo.png" alt="Phlox Republic" class="brand-logo">
       </a>
 
-      <div class="nav-ctas">
-        <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" aria-label="Connect to server">CONNECT</a>
-        <a class="btn btn-discord" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">DISCORD</a>
-      </div>
+      <nav class="nav-ctas" role="navigation" aria-label="Primary">
+        <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" role="button">CONNECT</a>
+        <a class="btn btn-outline" href="https://discord.gg/" target="_blank" rel="noopener">DISCORD</a>
+      </nav>
     </div>
   </header>
 
-  <!-- HERO -->
   <main>
-    <section id="home" class="hero" data-hero="assets/hero.jpg" aria-label="Phlox landing">
-      <canvas id="particles" class="particles"></canvas>
+    <!-- HERO with community.gif as main background -->
+    <section id="home" class="hero" data-hero="assets/community.gif" aria-label="Phlox landing">
+      <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-overlay"></div>
+      <canvas id="particles" class="particles" aria-hidden="true"></canvas>
 
       <div class="hero-inner container">
-        <!-- removed the small logo above PHLOX as requested -->
-        <h1 class="hero-title" aria-label="Phlox Republic Roleplay">
-          <span class="hero-prime parallax-phlox">PHLOX</span>
-          <span class="hero-subline"><span class="sub-big">REPUBLIC</span></span>
-          <span class="sub-small" style="display:block;margin-top:6px;color:var(--white);font-weight:700;letter-spacing:2px">ROLEPLAY</span>
-        </h1>
+        <h1 class="hero-prime parallax-phlox">PHLOX</h1>
+        <div class="hero-subline"><span class="sub-wrap">- REPUBLIC -</span><span class="sub-role">ROLEPLAY</span></div>
 
         <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
 
         <div class="hero-actions">
-          <a class="cta primary" href="samp://samp.pxr-rp.site:7826" aria-label="Play now / Launch game">PLAY NOW</a>
-          <a class="cta outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
+          <a class="cta primary" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
+          <a class="cta ghost" href="https://discord.gg/" target="_blank" rel="noopener">JOIN DISCORD</a>
         </div>
       </div>
     </section>
 
-    <!-- Welcome -->
+    <!-- Welcome / Features -->
     <section id="welcome" class="section container centered">
       <h2 class="section-title">WELCOME TO PHLOX REPUBLIC</h2>
-      <p class="lead">Phlox Republic isn't about stats on a screen. It's about reputation, power, and survival. The city breathes, the economy is ruthless, and every action carries permanent consequences. Whether you're enforcing the law, controlling the underground, or building a legitimate empire, your story is yours to write.</p>
+      <p class="lead">Immersive, unforgiving roleplay where economy, factions and player-driven stories matter. Choose your path — join a crew, run a business, or rise to power.</p>
 
-      <div class="feature-cards" aria-hidden="false">
-        <article class="card enhanced">
-          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-          <div class="card-body">
-            <h3 class="card-title">REALISTIC ECONOMY</h3>
-            <p class="card-desc">Every dollar is earned, stolen, or invested. Zero inflation. Player-owned businesses form the backbone of our city.</p>
-          </div>
+      <div class="feature-cards">
+        <article class="card">
+          <div class="card-icon">🏛️</div>
+          <div class="card-body"><h3>REALISTIC ECONOMY</h3><p>Player-led markets, businesses, and meaningful value.</p></div>
         </article>
-
-        <article class="card enhanced">
-          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 3L18 20l-6-4-6 4 1.5-8L3 8.5 9 8 12 2z" stroke="currentColor" stroke-width="0.6" /></svg></div>
-          <div class="card-body">
-            <h3 class="card-title">HARDCORE RP</h3>
-            <p class="card-desc">Serious enforcement and consequences — no quick respawns for your choices. Immersion-first rules and consistent staff enforcement.</p>
-          </div>
+        <article class="card">
+          <div class="card-icon">⚔️</div>
+          <div class="card-body"><h3>HARDCORE RP</h3><p>Consequences matter — your choices follow you.</p></div>
         </article>
-
-        <article class="card enhanced">
-          <div class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-          <div class="card-body">
-            <h3 class="card-title">DYNAMIC FACTIONS</h3>
-            <p class="card-desc">Turf battles, political campaigns, and corporate buyouts — entire systems driven by players and emergent conflict.</p>
-          </div>
+        <article class="card">
+          <div class="card-icon">🧭</div>
+          <div class="card-body"><h3>DYNAMIC FACTIONS</h3><p>Turf, politics, and player-driven conflict.</p></div>
         </article>
       </div>
     </section>
 
-    <!-- CHOOSE YOUR PATH -->
-    <section id="path" class="section dark container centered">
+    <!-- CHOOSE YOUR PATH (single row of 4 posters) -->
+    <section id="path" class="section dark container">
       <h2 class="section-title">CHOOSE YOUR PATH</h2>
-      <p class="lead">Four different aspects of life in the city. Which side will you walk?</p>
-
-      <p class="community-desc" style="max-width:820px;margin:8px auto 18px;color:rgba(255,255,255,0.9);text-align:center;">
-        Community: events, meetups and roleplay moments stitched together by our players. Join the community to find crews, groups, and events that shape the server.
-      </p>
+      <p class="lead">Four aspects of life in the city — find where you belong.</p>
 
       <div class="posters-grid">
-        <figure class="poster" tabindex="0" data-title="COMMUNITY">
+        <figure class="poster" tabindex="0">
           <img src="assets/hero.jpg" alt="Community">
-          <figcaption>
-            <span class="icon">🌐</span>
-            <h3>COMMUNITY</h3>
-            <p>A living city — events and meetups stitched by our players.</p>
-          </figcaption>
+          <figcaption><h3>COMMUNITY</h3><p>Events, meetups and roleplay moments driven by players.</p></figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
+        <figure class="poster" tabindex="0">
           <img src="assets/poster1.jpg" alt="Law Enforcement">
-          <figcaption>
-            <span class="icon">🛡️</span>
-            <h3>LAW ENFORCEMENT</h3>
-            <p>Uphold the law in a city tearing itself apart.</p>
-          </figcaption>
+          <figcaption><h3>LAW ENFORCEMENT</h3><p>Uphold order — protect or control the city.</p></figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
+        <figure class="poster" tabindex="0">
           <img src="assets/poster2.jpg" alt="The Underworld">
-          <figcaption>
-            <span class="icon">💀</span>
-            <h3>THE UNDERWORLD</h3>
-            <p>Build syndicates, control territories, run illicit trades.</p>
-          </figcaption>
+          <figcaption><h3>THE UNDERWORLD</h3><p>Syndicates, smuggling and turf wars.</p></figcaption>
         </figure>
 
-        <figure class="poster" tabindex="0" data-title="STREET LIFE">
+        <figure class="poster" tabindex="0">
           <img src="assets/poster3.jpg" alt="Street Life">
-          <figcaption>
-            <span class="icon">👥</span>
-            <h3>STREET LIFE</h3>
-            <p>Run businesses, hold turf, and survive the streets.</p>
-          </figcaption>
+          <figcaption><h3>STREET LIFE</h3><p>Businesses, crews and surviving on the streets.</p></figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- HIGH STAKES / REAL POWER -->
+    <!-- High stakes + Start flow -->
     <section id="stakes" class="section container split">
-      <div class="split-media">
-        <img src="assets/poster3.jpg" alt="Stakes image">
-      </div>
+      <div class="split-media"><img src="assets/poster3.jpg" alt="Stakes image"></div>
       <div class="split-content">
-        <h2 class="big-title"><span>HIGH</span> <span class="accent">STAKES.</span><br><span>REAL</span> <span class="accent">POWER.</span></h2>
-        <p class="lead">The guns on the street are crafted by players. Cars sold by player-owned dealerships. Drugs distributed by syndicates. Every aspect of the city requires human interaction. Zero hand-outs. Absolute consequence.</p>
+        <h2 class="big-title">HIGH <span class="accent">STAKES.</span><br>REAL <span class="accent">POWER.</span></h2>
+        <p class="lead">Player-crafted systems and permanent consequences — earn influence, fight for territory, build an empire.</p>
 
         <ul class="features-list">
-          <li>Player-driven businesses & economy</li>
-          <li>Custom drug synthesis system</li>
-          <li>Deep vehicle customization</li>
-          <li>Advanced medical & legal systems</li>
-          <li>SAMP 0.3.7 R4 compatible</li>
+          <li>Player-run businesses</li>
+          <li>Faction warfare & politics</li>
+          <li>In-depth vehicle & economy systems</li>
         </ul>
 
-        <a class="link-readrules" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">READ THE RULES</a>
+        <a class="link-cta" href="https://discord.gg/">READ THE RULES</a>
       </div>
     </section>
 
-    <!-- START YOUR STORY -->
     <section id="start-flow" class="section container">
       <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
-
       <div class="start-flow">
-        <div class="flow-item">
-          <div class="circle">01</div>
-          <div class="flow-desc">
-            <h4>INSTALL GTA & SA:MP</h4>
-            <p>You need GTA San Andreas and the SA:MP 0.3.7 R4 client. Both are required to connect.</p>
-          </div>
-        </div>
-
-        <div class="flow-item center">
-          <div class="circle highlight">02</div>
-          <div class="flow-desc">
-            <h4>JOIN THE COMMUNITY</h4>
-            <p>Hop into our Discord, read the rules, meet the crew, and get oriented before you connect.</p>
-            <a class="link-cta" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD ›</a>
-          </div>
-        </div>
-
-        <div class="flow-item">
-          <div class="circle">03</div>
-          <div class="flow-desc">
-            <h4>CONNECT & PLAY</h4>
-            <p>Add our IP to your SA:MP favourites or hit Launch Game to join immediately.</p>
-            <button class="copy-ip small" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
-          </div>
-        </div>
+        <div class="flow-item"><div class="circle">01</div><h4>INSTALL</h4><p>GTA San Andreas + SA:MP client.</p></div>
+        <div class="flow-item"><div class="circle">02</div><h4>JOIN COMMUNITY</h4><p>Hop into Discord and meet players.</p></div>
+        <div class="flow-item"><div class="circle">03</div><h4>CONNECT</h4><p>Use our IP or click Play Now.</p></div>
       </div>
     </section>
 
-    <!-- DIRECT CONNECT boxed area -->
     <section id="direct" class="section container">
       <div class="direct-box">
         <div class="direct-label">DIRECT CONNECT</div>
         <div class="direct-ip">samp.pxr-rp.site:7826</div>
-
         <div class="direct-actions">
-          <a class="btn big-launch" href="samp://samp.pxr-rp.site:7826" aria-label="Launch game">LAUNCH GAME</a>
-          <a class="btn outline" href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener">JOIN DISCORD</a>
+          <a class="btn big-launch" href="samp://samp.pxr-rp.site:7826">LAUNCH GAME</a>
+          <a class="btn btn-outline" href="https://discord.gg/">JOIN DISCORD</a>
         </div>
-
-        <button class="copy-ip large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy IP">COPY IP</button>
+        <button class="copy-ip" data-ip="samp.pxr-rp.site:7826">COPY IP</button>
       </div>
     </section>
+
   </main>
 
-  <!-- MUSIC: audio + music box control -->
+  <!-- audio + music box -->
   <audio id="bg-music" src="assets/music.mp3" preload="auto" loop crossorigin="anonymous"></audio>
 
-  <div class="music-box" aria-hidden="false" aria-label="Music player">
-    <button class="music-handle" aria-label="Open music player" title="Music">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10-11-7 2v8a3 3 0 1 0 2 0V9l5-1.4V6z"/></svg>
-    </button>
-
-    <div class="music-panel" role="region" aria-label="Music controls">
+  <div class="music-box" aria-label="Music player">
+    <button class="music-handle" aria-label="Open music player">♪</button>
+    <div class="music-panel">
       <div class="music-meta">
         <div class="music-title">Phlox Theme</div>
-        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play music" title="Play">
-          <svg class="icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18l15-9L5 3z"/></svg>
-          <svg class="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
+        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play">▶︎</button>
       </div>
-
-      <div class="music-progress" aria-hidden="false">
-        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="music-progress-filled"></div>
-        </div>
+      <div class="music-progress">
+        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="music-progress-filled"></div></div>
         <div class="music-time"><span class="cur">0:00</span> / <span class="dur">0:00</span></div>
       </div>
-
-      <div class="music-opts">
-        <label class="volume">
-          <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
-        </label>
-        <button id="music-pin" class="music-pin" aria-pressed="false" title="Keep player open" aria-label="Pin music player">📌</button>
-      </div>
+      <div class="music-opts"><input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume"><button id="music-pin" aria-pressed="false">📌</button></div>
     </div>
   </div>
 
-  <!-- floating Discord CTA -->
-  <a href="https://discord.gg/44zBvvmD46" class="floating-discord" target="_blank" rel="noopener" aria-label="Open Discord">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5c-.5-.3-1-.5-1.6-.6C16.8 3 12 3 12 3s-4.8 0-6.4.9c-.6.1-1.1.3-1.6.6-.6.3-1 1-1 1.7 0 1.6.7 3.2 2 4.3-.2.6-.3 1.2-.3 1.9 0 1.3.6 2.5 1.6 3.2 0 0-.2.1-.6.2 0 0 1.2.4 3.3.4 1.5 0 3.1-.3 4-1 .9.7 2.5 1 4 1 2.1 0 3.3-.4 3.3-.4-.4-.1-.6-.2-.6-.2 1-.7 1.6-1.9 1.6-3.2 0-.7-.1-1.3-.3-1.9 1.3-1.1 2-2.7 2-4.3 0-.7-.4-1.4-1-1.7z"/></svg>
-  </a>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- TOAST -->
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="brand">
-        <img src="assets/logo.png" alt="Phlox Republic" class="footer-logo">
-        <div class="brand-name">Phlox Republic Roleplay</div>
-      </div>
+      <div class="brand"><img src="assets/logo.png" alt="Phlox Republic" class="footer-logo"><div class="brand-name">Phlox Republic Roleplay</div></div>
       <div class="meta">EST. 2020</div>
-      <div class="footer-links">
-        <a href="https://discord.gg/44zBvvmD46" target="_blank" rel="noopener" class="btn-small">Discord</a>
-      </div>
     </div>
   </footer>
 
