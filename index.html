@@ -3,188 +3,140 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Phlox Republic Roleplay</title>
-
-  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-  <meta name="description" content="Phlox Republic Roleplay — immersive SA:MP roleplay." />
+  <title>PHLOX REPUBLIC — Community</title>
+  <meta name="description" content="PHLOX REPUBLIC — community-first SA:MP server" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:,">
 </head>
-<body id="top">
-  <div id="preloader" aria-hidden="true"><div class="spinner" aria-hidden="true"></div></div>
-
-  <header id="navbar" class="navbar" role="banner">
-    <div class="container nav-inner">
-      <a class="brand" href="#home" aria-label="Phlox Republic">
-        <img src="assets/logo.png" alt="Phlox Republic" class="brand-logo">
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="PHLOX REPUBLIC home">
+        <img src="assets/logo.png" alt="" class="brand-logo" />
+        <span class="brand-text">PHLOX REPUBLIC</span>
       </a>
 
-      <nav class="nav-ctas" role="navigation" aria-label="Primary">
-        <a class="btn btn-connect" href="samp://samp.pxr-rp.site:7826" role="button">CONNECT</a>
-        <a class="btn btn-outline" href="https://discord.gg/" target="_blank" rel="noopener">DISCORD</a>
+      <nav class="nav" role="navigation" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#community" class="nav-cta">Community</a>
+        <a href="login.html" class="nav-account">Account</a>
       </nav>
+
+      <div class="header-actions">
+        <button id="music-toggle" class="icon-btn" aria-pressed="false" aria-label="Play background music">▶</button>
+        <button id="menu-toggle" class="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu" hidden>
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#community">Community</a>
+      <a href="login.html">Account</a>
     </div>
   </header>
 
   <main>
-    <!-- HERO: community.gif as full background via CSS variable -->
-    <section id="home" class="hero" data-hero="assets/community.gif" aria-label="Phlox landing">
-      <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-overlay" aria-hidden="true"></div>
-      <canvas id="particles" class="particles" aria-hidden="true"></canvas>
+    <section class="hero" aria-label="Hero">
+      <div class="hero-media" role="img" aria-hidden="true"></div>
 
-      <div class="hero-inner container">
-        <h1 class="hero-prime parallax-phlox" aria-label="PHLOX">PHLOX</h1>
-        <div class="hero-subline"><span class="sub-text">- REPUBLIC -</span><span class="sub-role">ROLEPLAY</span></div>
+      <div class="container hero-content">
+        <div class="hero-left">
+          <h1 class="hero-title">PHLOX REPUBLIC</h1>
+          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join our growing republic.</p>
 
-        <p class="hero-tag">A high-stakes world where every choice echoes. Not just a game — a second life.</p>
+          <div class="hero-actions">
+            <a id="discord-link" class="btn btn-primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
+            <a class="btn btn-ghost" href="#gallery">Explore Gallery</a>
+          </div>
 
-        <div class="hero-actions">
-          <a class="btn btn-play" href="samp://samp.pxr-rp.site:7826">PLAY NOW</a>
-          <a class="btn btn-ghost" href="https://discord.gg/" target="_blank" rel="noopener">JOIN DISCORD</a>
+          <div class="server-cta" aria-label="Server">
+            <div class="server-info">
+              <div class="server-label">Server IP</div>
+              <div class="server-ip" id="server-ip">samp.pxr-rp.site:7826</div>
+              <div class="server-sub muted">Uptime, players and live events on Discord</div>
+            </div>
+            <div class="server-actions">
+              <button id="copy-addr" class="btn small">Copy</button>
+              <a id="join-link" class="btn small btn-primary" href="samp://samp.pxr-rp.site:7826">Join</a>
+            </div>
+          </div>
         </div>
+
+        <aside class="hero-card" aria-label="Highlight">
+          <img src="assets/her.jpg" alt="Community highlight" loading="eager" />
+          <div class="card-caption">Community Spotlight</div>
+        </aside>
       </div>
     </section>
 
-    <!-- FEATURES -->
-    <section id="welcome" class="section container centered">
-      <h2 class="section-title">WELCOME TO PHLOX</h2>
-      <p class="lead">Immersive, unforgiving roleplay where economy, factions and player-driven stories matter. Choose your path — join a crew, run a business, or rise to power.</p>
+    <section id="features" class="section container">
+      <div class="section-head">
+        <h2 class="section-title">Why play with us</h2>
+        <div class="section-deco"></div>
+      </div>
+      <p class="muted">Tuned for smooth roleplay and community events.</p>
+      <ul class="features-grid">
+        <li><strong>Stable performance</strong><span>Optimized maps & scripts for smooth play</span></li>
+        <li><strong>Active staff</strong><span>Fast support and regular events</span></li>
+        <li><strong>Custom content</strong><span>Unique vehicles, skins & missions</span></li>
+        <li><strong>Community driven</strong><span>Player-run events and art collabs</span></li>
+      </ul>
+    </section>
 
-      <div class="feature-cards">
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">🏛️</div>
-          <div class="card-body"><h3>REALISTIC ECONOMY</h3><p>Player-owned businesses and meaningful value.</p></div>
-        </article>
-
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">⚔️</div>
-          <div class="card-body"><h3>HARDCORE RP</h3><p>Consequences matter — griefing and meta-gaming are not tolerated.</p></div>
-        </article>
-
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">🧭</div>
-          <div class="card-body"><h3>DYNAMIC FACTIONS</h3><p>Turf, politics, and emergent conflict driven by players.</p></div>
-        </article>
+    <section id="gallery" class="section container">
+      <div class="section-head">
+        <h2 class="section-title">Gallery</h2>
+        <div class="section-deco"></div>
+      </div>
+      <p class="muted">Moments and posters from the republic.</p>
+      <div class="gallery-grid" id="gallery-grid">
+        <figure class="gallery-item"><img src="assets/poster1.png" alt="Poster 1" loading="lazy" data-full="assets/poster1.png"><figcaption>Poster 1</figcaption></figure>
+        <figure class="gallery-item"><img src="assets/poster2.png" alt="Poster 2" loading="lazy" data-full="assets/poster2.png"><figcaption>Poster 2</figcaption></figure>
+        <figure class="gallery-item"><img src="assets/poster3.png" alt="Poster 3" loading="lazy" data-full="assets/poster3.png"><figcaption>Poster 3</figcaption></figure>
+        <figure class="gallery-item large"><img src="assets/her.jpg" alt="Community Highlight" loading="lazy" data-full="assets/her.jpg"><figcaption>Community Highlight</figcaption></figure>
       </div>
     </section>
 
-    <!-- CHOOSE YOUR PATH (4 across) -->
-    <section id="path" class="section dark container">
-      <h2 class="section-title">CHOOSE YOUR PATH</h2>
-      <p class="lead">Four aspects of life in the city — find where you belong.</p>
-
-      <div class="posters-grid">
-        <figure class="poster" tabindex="0" data-title="COMMUNITY">
-          <img src="assets/hero.jpg" alt="Community poster">
-          <figcaption>
-            <h3>COMMUNITY</h3>
-            <p>Events, meetups and roleplay moments driven by players.</p>
-          </figcaption>
-        </figure>
-
-        <figure class="poster" tabindex="0" data-title="LAW ENFORCEMENT">
-          <img src="assets/poster1.jpg" alt="Law Enforcement poster">
-          <figcaption>
-            <h3>LAW ENFORCEMENT</h3>
-            <p>Uphold order — protect or control the city.</p>
-          </figcaption>
-        </figure>
-
-        <figure class="poster" tabindex="0" data-title="THE UNDERWORLD">
-          <img src="assets/poster2.jpg" alt="The Underworld poster">
-          <figcaption>
-            <h3>THE UNDERWORLD</h3>
-            <p>Syndicates, smuggling and turf wars.</p>
-          </figcaption>
-        </figure>
-
-        <figure class="poster" tabindex="0" data-title="STREET LIFE">
-          <img src="assets/poster3.jpg" alt="Street Life poster">
-          <figcaption>
-            <h3>STREET LIFE</h3>
-            <p>Businesses, crews and surviving on the streets.</p>
-          </figcaption>
-        </figure>
+    <section id="community" class="section container">
+      <div class="section-head">
+        <h2 class="section-title">Connect</h2>
+        <div class="section-deco"></div>
+      </div>
+      <p class="muted">Get announcements, vote in events, or ask staff on Discord.</p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
+        <a class="btn btn-outline" href="login.html">Account</a>
       </div>
     </section>
-
-    <!-- STAKES -->
-    <section id="stakes" class="section container split">
-      <div class="split-media"><img src="assets/poster3.jpg" alt="Stakes image"></div>
-      <div class="split-content">
-        <h2 class="big-title">HIGH <span class="accent">STAKES.</span><br>REAL <span class="accent">POWER.</span></h2>
-        <p class="lead">Player-crafted systems and permanent consequences — earn influence, fight for territory, build an empire.</p>
-
-        <ul class="features-list">
-          <li>Player-run businesses</li>
-          <li>Faction warfare & politics</li>
-          <li>Vehicle & economy systems</li>
-        </ul>
-
-        <a class="link-cta" href="https://discord.gg/">READ THE RULES</a>
-      </div>
-    </section>
-
-    <!-- START FLOW & DIRECT CONNECT -->
-    <section id="start-flow" class="section container">
-      <h2 class="section-title">START YOUR <span class="accent">STORY</span></h2>
-      <div class="start-flow">
-        <div class="flow-item"><div class="circle">01</div><h4>INSTALL</h4><p>GTA San Andreas + SA:MP client.</p></div>
-        <div class="flow-item"><div class="circle">02</div><h4>JOIN COMMUNITY</h4><p>Hop into Discord and meet players.</p></div>
-        <div class="flow-item"><div class="circle">03</div><h4>CONNECT</h4><p>Use our IP or click Play Now.</p></div>
-      </div>
-    </section>
-
-    <section id="direct" class="section container">
-      <div class="direct-box">
-        <div class="direct-label">DIRECT CONNECT</div>
-        <div class="direct-ip">samp.pxr-rp.site:7826</div>
-        <div class="direct-actions">
-          <a class="btn btn-launch" href="samp://samp.pxr-rp.site:7826">LAUNCH GAME</a>
-          <a class="btn btn-outline" href="https://discord.gg/">JOIN DISCORD</a>
-        </div>
-        <button class="copy-ip copy-ip-large" data-ip="samp.pxr-rp.site:7826" aria-label="Copy server IP">COPY IP</button>
-      </div>
-    </section>
-
   </main>
 
-  <!-- MUSIC -->
-  <audio id="bg-music" src="assets/music.mp3" preload="auto" loop crossorigin="anonymous"></audio>
-
-  <div class="music-box" aria-label="Music player">
-    <button class="music-handle" aria-label="Open music player">🎵</button>
-    <div class="music-panel" role="region" aria-label="Music controls">
-      <div class="music-meta">
-        <div class="music-title">Phlox Theme</div>
-        <button id="music-play" class="music-btn" aria-pressed="false" aria-label="Play/Pause">▶</button>
-      </div>
-
-      <div class="music-progress">
-        <div class="music-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="music-progress-filled"></div>
-        </div>
-        <div class="music-time"><span class="cur">0:00</span> / <span class="dur">0:00</span></div>
-      </div>
-
-      <div class="music-opts">
-        <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
-        <button id="music-pin" class="music-pin" aria-pressed="false" aria-label="Pin music player">📌</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="brand"><img src="assets/logo.png" alt="Phlox Republic" class="footer-logo"><div class="brand-name">Phlox Republic Roleplay</div></div>
-      <div class="meta">EST. 2020</div>
+    <div class="container">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> PHLOX REPUBLIC</div>
+        <div class="footer-links">
+          <a href="#gallery">Gallery</a>
+          <a href="login.html">Account</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <script src="scripts.js" defer></script>
+  <!-- lightbox: hidden by default -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
+    <button class="lb-close" aria-label="Close (Esc)">&times;</button>
+    <img class="lb-image" alt="" tabindex="-1">
+    <div class="lb-caption"></div>
+    <button class="lb-prev" aria-label="Previous image">‹</button>
+    <button class="lb-next" aria-label="Next image">›</button>
+  </div>
+
+  <!-- Background audio (user-triggered) -->
+  <audio id="bg-music" src="assets/music.mp3" loop preload="auto" aria-hidden="true"></audio>
+
+  <script src="script.js"></script>
 </body>
 </html>

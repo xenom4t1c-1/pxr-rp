@@ -3,38 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>404 — Page not found</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* small override for 404 layout */
-    main { padding:120px 0; text-align:center }
-    .error-code { font-family:"Oswald",sans-serif;font-size:120px;color:#fff;margin:0 0 12px }
-    .error-msg { color:var(--muted);font-size:18px;max-width:760px;margin:0 auto 22px }
-    .home-cta { display:inline-block;margin-top:12px;padding:12px 22px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700 }
-  </style>
+  <title>404 — Page not found — PHLOX REPUBLIC</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:,">
 </head>
 <body>
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="/"><img src="assets/logo.png" alt="Phlox Republic" class="brand-logo"></a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="brand-logo" />
+        <span class="brand-text">PHLOX REPUBLIC</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="login.html" class="nav-cta">Account</a>
+      </nav>
     </div>
   </header>
 
   <main>
-    <div class="container">
-      <div class="error-code">404</div>
-      <h1 class="section-title">Page not found</h1>
-      <p class="error-msg">The page you're looking for doesn't exist or has moved. Head back to the homepage and start your story with Phlox Republic Roleplay.</p>
-      <a class="home-cta" href="/">Return home</a>
-    </div>
+    <section class="error-page">
+      <div class="error-card">
+        <div class="error-top" style="display:flex;align-items:center;justify-content:center;gap:18px">
+          <div class="error-code">404</div>
+          <div style="text-align:left">
+            <h2 class="error-title">Page not found</h2>
+            <p class="error-desc muted">Looks like the page you're looking for doesn't exist. Let's get you back to the republic.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-primary" href="index.html">Return home</a>
+          <a class="btn btn-outline" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
+          <a class="btn" href="samp://samp.pxr-rp.site:7826">Join server</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="brand"><img src="assets/logo.png" alt="Phlox Republic" class="footer-logo"><div class="brand-name">Phlox Republic Roleplay</div></div>
-      <div class="meta">EST. 2020</div>
+    <div class="container">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> PHLOX REPUBLIC</div>
+      </div>
     </div>
   </footer>
+
+  <script>document.getElementById && (document.getElementById('year').textContent = new Date().getFullYear());</script>
 </body>
 </html>
