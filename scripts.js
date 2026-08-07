@@ -1,11 +1,12 @@
-/* scripts.js - interactions
+/* scripts.js - redesigned interactions
    - Preloader
    - Navbar solid on scroll
    - Smooth anchors
-   - Posters: hover & click -> color (toggle .active)
-   - Particles (lightweight)
-   - Copy IP controls and toast feedback
-   - Music box player + controls (robust)
+   - Posters: toggle + keyboard
+   - Particles
+   - Copy IP + toast
+   - Music player: play/pause, progress, volume, pin, saved prefs
+   - Parallax PHLOX
 */
 
 const qs = (s, e=document) => e.querySelector(s);
@@ -17,37 +18,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const pre = qs('#preloader');
   setTimeout(() => pre && pre.remove(), 600);
 
-  // Hero background set from data attribute
+  // Hero background from data attribute (set css var)
   const hero = qs('.hero');
   if (hero) {
-    const url = hero.dataset.hero;
+    const url = hero.dataset.hero || '';
     if (url) hero.style.setProperty('--hero-url', `url('${url}')`);
   }
 
   // Navbar solid on scroll
   const navbar = qs('#navbar');
-  const onScroll = () => {
-    if (!navbar) return;
-    if (window.scrollY > 60) navbar.classList.add('solid'); else navbar.classList.remove('solid');
-  };
+  const onScroll = () => { if (!navbar) return; window.scrollY > 60 ? navbar.classList.add('solid') : navbar.classList.remove('solid'); };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Smooth scroll for anchors (# links)
-  qsa('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const href = a.getAttribute('href') || '';
-      if (!href.startsWith('#')) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      const navH = navbar ? navbar.offsetHeight : 0;
-      const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - navH - 12);
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
-  });
+  // Smooth anchors
+  qsa('a[href^="#"]').forEach(a => a.addEventListener('click', (e) => {
+    const href = a.getAttribute('href') || '';
+    if (!href.startsWith('#')) return;
+    const target = document.querySelector(href);
+    if (!target) return;
+    e.preventDefault();
+    const navH = navbar ? navbar.offsetHeight : 0;
+    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - navH - 12);
+    window.scrollTo({ top, behavior: 'smooth' });
+  }));
 
-  // Posters: toggle color on click/tap + keyboard accessibility
+  // Posters: click + keyboard
   qsa('.poster').forEach(p => {
     p.addEventListener('click', () => p.classList.toggle('active'));
     p.addEventListener('keydown', (ev) => {
@@ -55,22 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Reveal animations for sections & posters (safe)
+  // Reveal (use IntersectionObserver if available)
   try {
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (en.isIntersecting) en.target.classList.add('in'); else en.target.classList.remove('in');
-      });
-    }, {threshold: 0.12});
+      entries.forEach(en => en.isIntersecting ? en.target.classList.add('in') : en.target.classList.remove('in'));
+    }, { threshold: 0.12 });
     qsa('.section, .poster').forEach(el => obs.observe(el));
-  } catch (e) {
-    // ignore if unsupported
-  }
+  } catch (e) { /* ignore */ }
 
-  // Init particles (safe)
-  try { initParticles('particles'); } catch (e) {}
+  // Init particles
+  try { initParticles('particles'); } catch (e) { /* ignore */ }
 
-  // Copy IP controls (copy buttons and toast)
+  // Toast + copy
   const toast = qs('#toast');
   const showToast = (msg='Copied!') => {
     if (!toast) return;
@@ -80,35 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
     toast._t = setTimeout(() => toast.classList.remove('show'), 1800);
   };
 
-  function fallbackCopy(text) {
+  function fallbackCopy(text){
     const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'absolute';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
+    ta.value = text; ta.style.position = 'absolute'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); showToast('IP copied to clipboard'); } catch (e) { showToast('Copy failed'); }
     ta.remove();
   }
 
-  function copyIP(ip) {
+  function copyIP(ip){
     if (!ip) ip = SERVER_IP;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(ip).then(() => showToast('IP copied to clipboard'), () => fallbackCopy(ip));
-    } else {
-      fallbackCopy(ip);
-    }
+    } else { fallbackCopy(ip); }
   }
 
-  // copy-ip buttons (small & large)
-  qsa('.copy-ip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const ip = btn.dataset.ip || SERVER_IP;
-      copyIP(ip);
-    });
-  });
+  qsa('.copy-ip, button.copy-ip').forEach(btn => btn.addEventListener('click', () => copyIP(btn.dataset.ip || SERVER_IP)));
 
-  // --- Music box interaction (robust) ---
+  // --- Music player ---
   const audio = qs('#bg-music');
   const musicBox = qs('.music-box');
   const musicHandle = qs('.music-handle');
@@ -121,169 +101,87 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeDur = qs('.music-time .dur');
 
   if (audio) {
-    // initialize volume from saved prefs or input default
+    // Load saved volume
     try {
       const savedVol = localStorage.getItem('phlox_music_vol');
       if (volRange) {
-        if (savedVol !== null) {
-          audio.volume = parseFloat(savedVol);
-          volRange.value = audio.volume;
-        } else {
-          audio.volume = parseFloat(volRange.value) || audio.volume || 0.6;
-          volRange.value = audio.volume;
-        }
+        if (savedVol !== null) { audio.volume = parseFloat(savedVol); volRange.value = audio.volume; }
+        else { audio.volume = parseFloat(volRange.value) || audio.volume || 0.6; volRange.value = audio.volume; }
       } else if (savedVol !== null) {
         audio.volume = parseFloat(savedVol);
-      } else {
-        audio.volume = audio.volume || 0.6;
       }
-    } catch (e){ /* ignore storage errors */ }
+    } catch (e) {}
 
-    // Attempt to reflect play state on load (but browsers may block autoplay)
+    // Update UI according to play state
     function updatePlayUI(){
-      if (!musicPlay || !audio) return;
+      if (!musicPlay) return;
       const playing = !audio.paused && !audio.ended;
       musicPlay.setAttribute('aria-pressed', String(playing));
-      const playIcon = musicPlay.querySelector('.icon-play');
-      const pauseIcon = musicPlay.querySelector('.icon-pause');
-      if (playIcon) playIcon.style.display = playing ? 'none' : 'inline';
-      if (pauseIcon) pauseIcon.style.display = playing ? 'inline' : 'none';
+      const text = playing ? '❚❚' : '▶';
+      musicPlay.textContent = text;
       try { localStorage.setItem('phlox_music_playing', playing ? '1' : '0'); } catch (e) {}
     }
 
-    // Open/close music box via handle
+    // Handle open/close
     if (musicHandle && musicBox) {
-      musicHandle.addEventListener('click', () => {
-        musicBox.classList.toggle('open');
-      });
+      musicHandle.addEventListener('click', () => musicBox.classList.toggle('open'));
       musicHandle.addEventListener('mouseenter', () => musicBox.classList.add('open'));
-      musicBox.addEventListener('mouseleave', () => {
-        if (musicPin && musicPin.getAttribute('aria-pressed') === 'true') return;
-        musicBox.classList.remove('open');
-      });
+      musicBox.addEventListener('mouseleave', () => { if (musicPin && musicPin.getAttribute('aria-pressed') === 'true') return; musicBox.classList.remove('open'); });
       musicHandle.addEventListener('focus', () => musicBox.classList.add('open'));
     }
 
-    // Play/pause button
-    if (musicPlay) {
-      musicPlay.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.play().catch(() => { showToast('Playback blocked — interact to enable'); });
-        } else {
-          audio.pause();
-        }
-        updatePlayUI();
-      });
-    }
+    if (musicPlay) musicPlay.addEventListener('click', () => { if (audio.paused) audio.play().catch(() => showToast('Playback blocked — interact to enable')); else audio.pause(); updatePlayUI(); });
 
     audio.addEventListener('play', updatePlayUI);
     audio.addEventListener('pause', updatePlayUI);
 
-    // Update timings when metadata loads
     audio.addEventListener('loadedmetadata', () => {
-      if (timeDur) {
-        const fmt = s => { if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; };
-        timeDur.textContent = fmt(audio.duration);
-      }
+      if (timeDur) timeDur.textContent = fmtTime(audio.duration);
     });
 
-    // time updates (guarded)
     audio.addEventListener('timeupdate', () => {
       if (!audio) return;
       const pct = (audio.currentTime / (audio.duration || 1)) * 100;
       if (progressFilled) progressFilled.style.width = pct + '%';
       if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
-      function fmt(s){ if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
-      if (timeCur) timeCur.textContent = fmt(audio.currentTime);
-      if (timeDur && isFinite(audio.duration)) timeDur.textContent = fmt(audio.duration);
+      if (timeCur) timeCur.textContent = fmtTime(audio.currentTime);
+      if (timeDur && isFinite(audio.duration)) timeDur.textContent = fmtTime(audio.duration);
     });
 
-    // Seek on click
-    if (progressBar) {
-      progressBar.addEventListener('click', (ev) => {
-        const r = progressBar.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
-        audio.currentTime = (audio.duration || 0) * x;
-      });
-    }
+    if (progressBar) progressBar.addEventListener('click', (ev) => { const r = progressBar.getBoundingClientRect(); const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)); audio.currentTime = (audio.duration || 0) * x; });
 
-    // Volume control
     if (volRange) {
-      volRange.addEventListener('input', () => {
-        audio.volume = parseFloat(volRange.value);
-        try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {}
-      });
+      volRange.addEventListener('input', () => { audio.volume = parseFloat(volRange.value); try { localStorage.setItem('phlox_music_vol', audio.volume.toString()); } catch (e) {} });
       volRange.value = audio.volume;
     }
 
-    // Pin toggle
-    if (musicPin) {
-      musicPin.addEventListener('click', () => {
-        const pinned = musicPin.getAttribute('aria-pressed') === 'true';
-        musicPin.setAttribute('aria-pressed', String(!pinned));
-      });
-    }
+    if (musicPin) musicPin.addEventListener('click', () => musicPin.setAttribute('aria-pressed', String(musicPin.getAttribute('aria-pressed') !== 'true')));
 
-    // Try to resume if user previously wanted playback (after first gesture)
-    window.addEventListener('pointerdown', function resumeIfNeeded(){
-      try {
-        const savedPlay = localStorage.getItem('phlox_music_playing') === '1';
-        if (savedPlay && audio.paused) { audio.play().catch(()=>{}); }
-      } catch (e) {}
-      window.removeEventListener('pointerdown', resumeIfNeeded);
-    }, { once: true });
+    // Resume after gesture if user wanted playback
+    window.addEventListener('pointerdown', function resumeIfNeeded(){ try { const savedPlay = localStorage.getItem('phlox_music_playing') === '1'; if (savedPlay && audio.paused) audio.play().catch(()=>{}); } catch(e){} window.removeEventListener('pointerdown', resumeIfNeeded); }, { once: true });
 
-    // initial UI sync
+    // initial UI
     updatePlayUI();
-  } // end if audio
+  }
 
-  // --- Parallax PHLOX movement (safe) ---
+  function fmtTime(s){ if (!isFinite(s)) return '0:00'; const m = Math.floor(s/60), sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
+
+  // PHLOX parallax
   const parallaxEls = qsa('.parallax-phlox');
-  if (parallaxEls.length){
+  if (parallaxEls.length) {
     let ticking = false;
-    function onScrollParallax() {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          for (const el of parallaxEls) {
-            const rect = el.getBoundingClientRect();
-            const centerY = rect.top + rect.height/2;
-            const offset = (window.scrollY / 300) + (centerY - window.innerHeight/2) / 500;
-            const x = Math.sin(window.scrollY / 300) * 6;
-            const y = Math.max(-20, Math.min(20, offset * 14));
-            el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
+    function onScrollParallax(){ if (!ticking) { window.requestAnimationFrame(() => { for (const el of parallaxEls) { const rect = el.getBoundingClientRect(); const centerY = rect.top + rect.height/2; const offset = (window.scrollY / 300) + (centerY - window.innerHeight/2) / 500; const x = Math.sin(window.scrollY / 300) * 6; const y = Math.max(-20, Math.min(20, offset * 14)); el.style.transform = `translate3d(${x}px, ${y}px, 0)`; } ticking = false; }); ticking = true; } }
     window.addEventListener('scroll', onScrollParallax, { passive: true });
     onScrollParallax();
   }
 
-}); // end DOMContentLoaded
+}); // DOMContentLoaded
 
 /* Lightweight particle canvas */
 function initParticles(id){
-  const c = document.getElementById(id);
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  let W = c.width = innerWidth;
-  let H = c.height = innerHeight;
-  const particles = [];
-  const count = Math.min(90, Math.floor(W / 15));
-  function rand(a,b){return Math.random()*(b-a)+a}
-  // phlox purple rgb: 124,44,200
+  const c = document.getElementById(id); if (!c) return; const ctx = c.getContext('2d'); let W = c.width = innerWidth; let H = c.height = innerHeight; const particles = []; const count = Math.min(90, Math.floor(W/15)); function rand(a,b){return Math.random()*(b-a)+a}
   for (let i=0;i<count;i++) particles.push({x:Math.random()*W,y:Math.random()*H,r:rand(.6,2.2),vx:rand(-0.15,0.15),vy:rand(0.02,0.35),a:rand(0.02,0.12)});
-  window.addEventListener('resize', () => {W=c.width=innerWidth; H=c.height=innerHeight;});
-  function loop(){
-    ctx.clearRect(0,0,W,H);
-    for (let p of particles){
-      p.x += p.vx; p.y += p.vy;
-      if (p.y > H + 20) { p.y = -10; p.x = Math.random()*W; }
-      ctx.beginPath(); ctx.fillStyle = `rgba(124,44,200,${p.a})`; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-    }
-    requestAnimationFrame(loop);
-  }
+  window.addEventListener('resize', () => { W=c.width=innerWidth; H=c.height=innerHeight; });
+  function loop(){ ctx.clearRect(0,0,W,H); for (let p of particles){ p.x += p.vx; p.y += p.vy; if (p.y > H + 20) { p.y = -10; p.x = Math.random()*W; } ctx.beginPath(); ctx.fillStyle = `rgba(124,44,200,${p.a})`; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } requestAnimationFrame(loop); }
   loop();
 }
