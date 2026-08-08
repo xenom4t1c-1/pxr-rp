@@ -1,18 +1,15 @@
-// Single-page script: smooth scroll, autoplay attempt, lightbox, modal, UI tweaks
+// Single-page script: updated Play behavior (copy IP + open samp://), gallery effects, autoplay hint, lightbox, modal
 document.addEventListener('DOMContentLoaded', () => {
   const serverIP = "samp.pxr-rp.site:7826";
-  const joinUrl = `samp://${serverIP}`;
+  const sampUrl = `samp://${serverIP}`;
   const discordInvite = "https://discord.gg/aFg2fywWha";
 
   // YEAR
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ELEMENTS
-  const joinLink = document.getElementById('join-link');
-  const discordLink = document.getElementById('discord-link');
-  if (joinLink) joinLink.href = joinUrl;
-  if (discordLink) discordLink.href = discordInvite;
+  // set discord anchors
+  document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
 
   // SMOOTH SCROLL (no hash change)
   document.addEventListener('click', (e) => {
@@ -22,44 +19,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const sel = btn.getAttribute('data-scroll');
     const target = document.querySelector(sel);
     if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
-    // visual hint: if Play button used, briefly pulse Join button
-    if (btn.id === 'play-btn' || btn.id === 'play-join') {
-      const j = document.getElementById('join-link');
-      if (j) {
-        j.classList.add('pulse');
-        setTimeout(()=> j.classList.remove('pulse'), 2200);
-      }
-    }
   });
 
-  // play-btn: scroll to connect and highlight join
+  // Play button: copy IP and attempt to open samp://
   const playBtn = document.getElementById('play-btn');
-  if (playBtn) {
-    playBtn.addEventListener('click', () => {
-      const target = document.getElementById('community');
-      target?.scrollIntoView({behavior:'smooth', block:'start'});
-      const j = document.getElementById('join-link');
-      if (j) {
-        j.classList.add('pulse');
-        setTimeout(()=> j.classList.remove('pulse'), 2200);
-      }
-    });
-  }
+  const playJoin = document.getElementById('play-join');
+  async function doPlayAction() {
+    // copy IP
+    try {
+      await navigator.clipboard.writeText(serverIP);
+      showToast('IP copied to clipboard');
+    } catch {
+      showToast('IP copy failed — please copy manually: ' + serverIP);
+    }
 
-  // copy IP
-  const copyBtn = document.getElementById('copy-addr');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(serverIP);
-        const prev = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(()=> { copyBtn.textContent = prev; copyBtn.classList.remove('copied'); }, 1600);
-      } catch {
-        alert('Copy failed — please copy manually: ' + serverIP);
-      }
+    // attempt to open samp://
+    // set location to URL; browsers may prompt or do nothing if no handler
+    setTimeout(() => {
+      window.location.href = sampUrl;
+      // fallback: open in new tab (might be blocked but harmless)
+      try { window.open(sampUrl, '_blank'); } catch {}
+    }, 150);
+  }
+  if (playBtn) playBtn.addEventListener('click', (e) => { e.preventDefault(); doPlayAction(); });
+  if (playJoin) playJoin.addEventListener('click', (e) => { e.preventDefault(); doPlayAction(); });
+
+  // Toast helper
+  function showToast(text, ms = 2200) {
+    const id = 'pxr-toast';
+    if (document.getElementById(id)) return;
+    const t = document.createElement('div');
+    t.id = id;
+    t.textContent = text;
+    Object.assign(t.style, {
+      position: 'fixed',
+      right: '18px',
+      bottom: '18px',
+      background: 'linear-gradient(90deg, rgba(124,44,200,0.95), rgba(90,31,160,0.95))',
+      color: '#fff',
+      padding: '10px 14px',
+      borderRadius: '10px',
+      zIndex: 99999,
+      boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+      fontWeight: '700',
+      fontSize: '13px'
     });
+    document.body.appendChild(t);
+    setTimeout(()=> { t.style.opacity = '0'; t.style.transition = 'opacity .4s'; }, ms);
+    setTimeout(()=> t.remove(), ms + 420);
   }
 
   // Background audio: best-effort autoplay muted then unmute if allowed
@@ -69,16 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (audio) {
     audio.muted = true;
     audio.play().then(()=> {
-      // autoplay succeeded (muted); try unmute
-      setTimeout(()=> {
-        try { audio.muted = false; } catch {}
-      }, 800);
+      setTimeout(()=> { try { audio.muted = false; } catch{} }, 600);
     }).catch(()=> {
-      // blocked — user must press button
-      // show hint handled by previous logic (not intrusive)
+      // blocked, user will press play
+      showAutoplayHint();
     });
 
-    // persist user pref
     const saved = localStorage.getItem('pxr_music') === 'true';
     if (saved) audio.play().catch(()=>{});
 
@@ -107,6 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.addEventListener('pause', ()=> { playing = false; if (musicBtn) { musicBtn.textContent = '▶'; musicBtn.classList.remove('playing'); } });
   } else if (musicBtn) {
     musicBtn.style.display = 'none';
+  }
+
+  function showAutoplayHint(){
+    if (document.getElementById('autoplay-hint')) return;
+    const t = document.createElement('div');
+    t.id = 'autoplay-hint';
+    t.innerHTML = 'Audio autoplay blocked — press the ▶ button to enable music';
+    Object.assign(t.style, {
+      position:'fixed',left:'18px',bottom:'18px',background:'rgba(0,0,0,0.6)',color:'#fff',padding:'10px 14px',borderRadius:'10px',zIndex:9999,fontSize:'13px'
+    });
+    document.body.appendChild(t);
+    setTimeout(()=> { t.style.opacity = '0'; t.style.transition = 'opacity .4s'; }, 7000);
+    setTimeout(()=> t.remove(),7600);
   }
 
   // Account modal
@@ -193,16 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {threshold: 0.12});
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  // unify discord anchors
-  document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
-
   // gentle parallax/zoom on hero media
   const heroMedia = document.querySelector('.hero-media');
   if (heroMedia) {
     let t = 0;
     function animate() {
-      t += 0.0025;
-      heroMedia.style.transform = `scale(${1.02 + Math.sin(t) * 0.005}) translateY(${Math.sin(t * 0.6) * 1.8}px)`;
+      t += 0.002;
+      heroMedia.style.transform = `scale(${1.02 + Math.sin(t) * 0.005}) translateY(${Math.sin(t * 0.7) * 1.6}px)`;
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
