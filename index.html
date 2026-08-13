@@ -1,15 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PHLOX REPUBLIC — Community</title>
-  <meta name="description" content="PHLOX REPUBLIC — community-first SA:MP server" />
+  <meta name="description" content="PHLOX REPUBLIC — community-first SA:MP & FiveM community" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="data:,">
 </head>
@@ -23,16 +18,28 @@
         </a>
       </div>
 
+      <!-- Desktop nav -->
       <nav class="nav" role="navigation" aria-label="Main">
         <button class="nav-link" data-scroll="#features">Features</button>
         <button class="nav-link" data-scroll="#gallery">Gallery</button>
         <button class="nav-link" data-scroll="#community">Connect</button>
-        <button id="account-open" class="nav-link">Account</button>
+        <button id="account-open" class="nav-link nav-account">Account</button>
       </nav>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-toggle" class="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
 
       <div class="header-actions">
         <button id="music-toggle" class="icon-btn" aria-pressed="false" aria-label="Play background music">▶</button>
       </div>
+    </div>
+
+    <!-- Mobile menu: shown only on small screens -->
+    <div id="mobile-menu" class="mobile-menu" hidden aria-hidden="true">
+      <button class="mobile-link" data-scroll="#features">Features</button>
+      <button class="mobile-link" data-scroll="#gallery">Gallery</button>
+      <button class="mobile-link" data-scroll="#community">Connect</button>
+      <button class="mobile-link" id="mobile-account">Account</button>
     </div>
   </header>
 
@@ -43,14 +50,32 @@
       <div class="container hero-content">
         <div class="hero-left">
           <h1 class="hero-title">PHLOX REPUBLIC</h1>
-          <p class="hero-lead">Community-first SA:MP — events, roleplay and a friendly staff team. Join the republic and play with a welcoming community.</p>
+          <p class="hero-lead">Community-first SA:MP & FiveM — events, roleplay and a welcoming staff team. Play SA:MP today; FiveM launching soon.</p>
 
+          <!-- Buttons: desktop row, mobile stacked (play on top, discord below) -->
           <div class="hero-actions">
-            <a id="discord-link" class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Join Discord</a>
-            <button class="btn ghost" id="play-btn" title="Open SA:MP and copy IP">Play</button>
+            <button id="play-samp" class="btn btn-lg btn-primary" title="Open SA:MP and copy IP">
+              <span class="btn-icon">🕹</span>
+              Play SA:MP
+            </button>
+
+            <button id="play-fivem" class="btn btn-lg btn-ghost" title="FiveM coming soon" aria-disabled="true">
+              <span class="btn-icon">⏳</span>
+              Play FiveM
+            </button>
+
+            <a id="discord-samp" class="btn btn-sm btn-discord" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">
+              <span class="btn-icon">💬</span>
+              Discord (SA:MP)
+            </a>
+
+            <a id="discord-fivem" class="btn btn-sm btn-discord ghost" href="https://discord.gg/hjt9jFsm5e" target="_blank" rel="noopener">
+              <span class="btn-icon">💬</span>
+              Discord (FiveM)
+            </a>
           </div>
 
-          <div class="hero-note muted">Click Play to copy the server IP and attempt to open it in your SA:MP client.</div>
+          <div class="hero-note muted">Click Play to copy the server IP and attempt to open it in your SA:MP client. FiveM is coming soon — click Play FiveM for details.</div>
         </div>
       </div>
     </section>
@@ -67,7 +92,12 @@
           <div class="feature-icon">⚡</div>
           <div class="feature-body">
             <h3>Performance</h3>
-            <p class="muted">Optimized maps and scripts to keep lag low during big events, with regular tuning.</p>
+            <p class="muted">Optimized maps & scripts — tuned for big events and many players.</p>
+            <ul class="feature-list muted">
+              <li>Low-latency tuning</li>
+              <li>Map & script optimizations</li>
+              <li>Regular maintenance</li>
+            </ul>
           </div>
         </article>
 
@@ -75,7 +105,11 @@
           <div class="feature-icon">🛡️</div>
           <div class="feature-body">
             <h3>Active Staff</h3>
-            <p class="muted">Friendly moderation, clear rules, and fast support.</p>
+            <p class="muted">Friendly moderation and prompt support.</p>
+            <ul class="feature-list muted">
+              <li>24/7 staff coverage</li>
+              <li>Clear rules & appeals</li>
+            </ul>
           </div>
         </article>
 
@@ -83,7 +117,11 @@
           <div class="feature-icon">🚗</div>
           <div class="feature-body">
             <h3>Custom Content</h3>
-            <p class="muted">Unique vehicles, skins and missions crafted by the community.</p>
+            <p class="muted">Vehicles, skins and missions crafted by the community.</p>
+            <ul class="feature-list muted">
+              <li>Unique vehicles</li>
+              <li>Custom missions</li>
+            </ul>
           </div>
         </article>
 
@@ -91,7 +129,11 @@
           <div class="feature-icon">🤝</div>
           <div class="feature-body">
             <h3>Community Events</h3>
-            <p class="muted">Weekly RP events, contests and community-driven moments.</p>
+            <p class="muted">Weekly RP events, contests and festivals.</p>
+            <ul class="feature-list muted">
+              <li>Player-run events</li>
+              <li>Prizes & trophies</li>
+            </ul>
           </div>
         </article>
       </div>
@@ -99,14 +141,18 @@
 
     <section id="gallery" class="section container animate-in">
       <div class="section-head">
-        <h2 class="section-title">Gallery — Posters & Moments</h2>
+        <h2 class="section-title">Gallery — Posters & Moments (SAMP)</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="section-sub muted">Click any image to view it larger. Images include posters and featured community moments.</p>
+      <p class="section-sub muted">Click any image to view it larger. Posters and community moments presented prominently.</p>
 
       <div class="gallery-grid" id="gallery-grid">
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster1.jpg" alt="Poster 1" loading="lazy" data-full="assets/poster1.jpg"></div>
+          <div class="img-wrap">
+            <img src="assets/poster1.jpg" alt="Poster 1" loading="lazy" data-full="assets/poster1.jpg">
+            <span class="platform-badge">SAMP</span>
+            <div class="img-overlay"></div>
+          </div>
           <div class="gallery-meta">
             <div class="gallery-title">City Night Poster</div>
             <div class="gallery-desc muted">A night-time event poster showing the city skyline and event details.</div>
@@ -114,7 +160,11 @@
         </figure>
 
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster2.jpg" alt="Poster 2" loading="lazy" data-full="assets/poster2.jpg"></div>
+          <div class="img-wrap">
+            <img src="assets/poster2.jpg" alt="Poster 2" loading="lazy" data-full="assets/poster2.jpg">
+            <span class="platform-badge">SAMP</span>
+            <div class="img-overlay"></div>
+          </div>
           <div class="gallery-meta">
             <div class="gallery-title">Summer RP Festival</div>
             <div class="gallery-desc muted">Artwork for the summer festival — races, treasure hunts and RP scenarios.</div>
@@ -122,7 +172,11 @@
         </figure>
 
         <figure class="gallery-item">
-          <div class="img-wrap"><img src="assets/poster3.jpg" alt="Poster 3" loading="lazy" data-full="assets/poster3.jpg"></div>
+          <div class="img-wrap">
+            <img src="assets/poster3.jpg" alt="Poster 3" loading="lazy" data-full="assets/poster3.jpg">
+            <span class="platform-badge">SAMP</span>
+            <div class="img-overlay"></div>
+          </div>
           <div class="gallery-meta">
             <div class="gallery-title">Community Collab</div>
             <div class="gallery-desc muted">Player-made poster showcasing a community collaboration.</div>
@@ -130,7 +184,11 @@
         </figure>
 
         <figure class="gallery-item large">
-          <div class="img-wrap"><img src="assets/hero.jpg" alt="Community Highlight" loading="lazy" data-full="assets/hero.jpg"></div>
+          <div class="img-wrap">
+            <img src="assets/hero.jpg" alt="Community Highlight" loading="lazy" data-full="assets/hero.jpg">
+            <span class="platform-badge">SAMP</span>
+            <div class="img-overlay"></div>
+          </div>
           <div class="gallery-meta">
             <div class="gallery-title">Featured: Community Highlight</div>
             <div class="gallery-desc muted">A memorable moment captured during a live RP event — players, drama and prizes.</div>
@@ -144,10 +202,23 @@
         <h2 class="section-title">Connect</h2>
         <div class="section-deco"></div>
       </div>
-      <p class="section-sub muted">Get announcements, vote in events, or ask staff on Discord. Most activity happens there.</p>
+      <p class="section-sub muted">Get announcements, vote in events, or ask staff on Discord. Most activity is on the Discord servers.</p>
+
       <div class="contact-actions">
-        <a class="btn primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord</a>
-        <a class="btn ghost" id="play-join" href="#" title="Copy IP and open SA:MP">Play Now</a>
+        <a class="btn btn-primary" href="https://discord.gg/aFg2fywWha" target="_blank" rel="noopener">Discord (SA:MP)</a>
+        <a class="btn btn-ghost" href="https://discord.gg/hjt9jFsm5e" target="_blank" rel="noopener">Discord (FiveM)</a>
+        <div class="connect-play">
+          <button id="play-join" class="btn btn-primary">Play SA:MP</button>
+          <button id="play-fivem-connect" class="btn btn-ghost" aria-disabled="true">Play FiveM (Coming soon)</button>
+        </div>
+      </div>
+
+      <div class="contact-emails" aria-label="Contact">
+        <h3 class="muted">Contact</h3>
+        <ul class="muted">
+          <li><a href="mailto:support@pxr-rp.site">support@pxr-rp.site</a></li>
+          <li><a href="mailto:mail@pxr-rp.site">mail@pxr-rp.site</a></li>
+        </ul>
       </div>
     </section>
   </main>
@@ -160,16 +231,31 @@
     </div>
   </footer>
 
-  <!-- Account modal (opaque) -->
+  <!-- Account modal (opaque, purple CTA) -->
   <div id="account-modal" class="modal" role="dialog" aria-hidden="true" aria-label="Account dialog">
     <div class="modal-content" role="document">
       <button class="modal-close" aria-label="Close">✕</button>
       <div class="modal-body">
         <h2>Account — Coming soon</h2>
-        <p class="muted">Account where players will manage their in-game items, inventory and preferences. We're building a secure dashboard so you can view and control items tied to your in-game account.</p>
+        <p class="muted">Manage your in-game items and inventory for SA:MP (and later FiveM). We're building a secure dashboard — follow Discord for updates.</p>
         <div class="modal-actions">
-          <button class="btn primary" disabled>Sign in (coming soon)</button>
-          <a class="btn ghost" href="https://discord.gg/aFg2fywWha" target="_blank">Join Discord</a>
+          <button class="btn btn-primary" disabled>Sign in (coming soon)</button>
+          <a class="btn btn-ghost" href="https://discord.gg/aFg2fywWha" target="_blank">Join Discord</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FiveM "Coming soon" modal -->
+  <div id="fivem-modal" class="modal" role="dialog" aria-hidden="true" aria-label="FiveM Coming Soon">
+    <div class="modal-content" role="document">
+      <button class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-body">
+        <h2>FiveM — Coming soon</h2>
+        <p class="muted">We're preparing a FiveM server for PHLOX REPUBLIC. Join the FiveM Discord for updates and early access announcements.</p>
+        <div class="modal-actions">
+          <a class="btn btn-discord" href="https://discord.gg/hjt9jFsm5e" target="_blank">Join FiveM Discord</a>
+          <button class="btn btn-ghost" disabled>Notify me (coming soon)</button>
         </div>
       </div>
     </div>

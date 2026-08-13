@@ -1,17 +1,47 @@
-// Single-page script: updated Play behavior (copy IP + open samp://), gallery effects, autoplay hint, lightbox, modal
+// Single-page script: mobile menu, SA:MP + FiveM UI, Play actions, gallery lightbox, autoplay hint, modals
 document.addEventListener('DOMContentLoaded', () => {
-  const serverIP = "samp.pxr-rp.site:7826";
-  const sampUrl = `samp://${serverIP}`;
-  const discordInvite = "https://discord.gg/aFg2fywWha";
+  // Config
+  const sampIP = "samp.pxr-rp.site:7826";
+  const sampUrl = `samp://${sampIP}`;
+  const fivemIP = "";
+  const discordSamp = "https://discord.gg/aFg2fywWha";
+  const discordFivem = "https://discord.gg/hjt9jFsm5e";
 
-  // YEAR
+  // Year
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // set discord anchors
-  document.querySelectorAll('a[href^="https://discord.gg/"]').forEach(a => a.href = discordInvite);
+  // Wire discord links
+  document.getElementById('discord-samp')?.setAttribute('href', discordSamp);
+  document.getElementById('discord-fivem')?.setAttribute('href', discordFivem);
 
-  // SMOOTH SCROLL (no hash change)
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const open = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!open));
+      if (open) {
+        mobileMenu.hidden = true;
+        mobileMenu.setAttribute('aria-hidden','true');
+      } else {
+        mobileMenu.hidden = false;
+        mobileMenu.setAttribute('aria-hidden','false');
+      }
+    });
+    // close menu on mobile link click
+    mobileMenu.addEventListener('click', (e) => {
+      const link = e.target.closest('[data-scroll], .mobile-link');
+      if (!link) return;
+      // hide menu after click
+      mobileMenu.hidden = true;
+      mobileMenu.setAttribute('aria-hidden','true');
+      menuToggle.setAttribute('aria-expanded','false');
+    });
+  }
+
+  // Smooth scroll (keeps URL clean)
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-scroll]');
     if (!btn) return;
@@ -21,28 +51,45 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
-  // Play button: copy IP and attempt to open samp://
-  const playBtn = document.getElementById('play-btn');
-  const playJoin = document.getElementById('play-join');
-  async function doPlayAction() {
-    // copy IP
+  // Play SA:MP action: copy IP and attempt to open samp://
+  async function playSampAction() {
     try {
-      await navigator.clipboard.writeText(serverIP);
-      showToast('IP copied to clipboard');
+      await navigator.clipboard.writeText(sampIP);
+      showToast('SA:MP IP copied to clipboard');
     } catch {
-      showToast('IP copy failed — please copy manually: ' + serverIP);
+      showToast('Could not copy IP — copy manually: ' + sampIP);
     }
-
-    // attempt to open samp://
-    // set location to URL; browsers may prompt or do nothing if no handler
     setTimeout(() => {
       window.location.href = sampUrl;
-      // fallback: open in new tab (might be blocked but harmless)
       try { window.open(sampUrl, '_blank'); } catch {}
     }, 150);
   }
-  if (playBtn) playBtn.addEventListener('click', (e) => { e.preventDefault(); doPlayAction(); });
-  if (playJoin) playJoin.addEventListener('click', (e) => { e.preventDefault(); doPlayAction(); });
+  document.getElementById('play-samp')?.addEventListener('click', (e) => { e.preventDefault(); playSampAction(); });
+  document.getElementById('play-join')?.addEventListener('click', (e) => { e.preventDefault(); playSampAction(); });
+
+  // Connect section Play SA:MP button
+  document.getElementById('play-join')?.addEventListener('click', (e) => { e.preventDefault(); playSampAction(); });
+
+  // Play FiveM: opens Coming Soon modal
+  const playFivemBtn = document.getElementById('play-fivem');
+  const playFivemConnect = document.getElementById('play-fivem-connect');
+  const fivemModal = document.getElementById('fivem-modal');
+  const fivemModalClose = fivemModal?.querySelector('.modal-close');
+  function openFivemModal() {
+    if (!fivemModal) return;
+    fivemModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFivemModal() {
+    if (!fivemModal) return;
+    fivemModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  if (playFivemBtn) playFivemBtn.addEventListener('click', (e) => { e.preventDefault(); openFivemModal(); });
+  if (playFivemConnect) playFivemConnect.addEventListener('click', (e) => { e.preventDefault(); openFivemModal(); });
+  fivemModalClose && fivemModalClose.addEventListener('click', closeFivemModal);
+  fivemModal && fivemModal.addEventListener('click', (e) => { if (e.target === fivemModal) closeFivemModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (fivemModal && fivemModal.getAttribute('aria-hidden') === 'false') closeFivemModal(); } });
 
   // Toast helper
   function showToast(text, ms = 2200) {
@@ -69,16 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=> t.remove(), ms + 420);
   }
 
-  // Background audio: best-effort autoplay muted then unmute if allowed
+  // Background audio: best-effort autoplay
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   let playing = false;
   if (audio) {
     audio.muted = true;
     audio.play().then(()=> {
-      setTimeout(()=> { try { audio.muted = false; } catch{} }, 600);
+      setTimeout(()=> { try { audio.muted = false; } catch {} }, 700);
     }).catch(()=> {
-      // blocked, user will press play
       showAutoplayHint();
     });
 
@@ -98,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             playing = false;
             localStorage.setItem('pxr_music','false');
           }
-        } catch (err) {
+        } catch {
           try { audio.muted = false; await audio.play(); playing = true; localStorage.setItem('pxr_music','true'); } catch {}
         }
         musicBtn.textContent = playing ? '⏸' : '▶';
@@ -126,9 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Account modal
-  const accountOpenButtons = Array.from(document.querySelectorAll('#account-open, #account-open-2'));
+  const accountOpenButtons = Array.from(document.querySelectorAll('#account-open, #mobile-account'));
   const accountModal = document.getElementById('account-modal');
-  const modalClose = accountModal?.querySelector('.modal-close');
+  const accountModalClose = accountModal?.querySelector('.modal-close');
   function openAccount() {
     if (!accountModal) return;
     accountModal.setAttribute('aria-hidden','false');
@@ -142,11 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
   accountOpenButtons.forEach(b => b && b.addEventListener('click', (e)=> { e.preventDefault(); openAccount(); }));
-  modalClose && modalClose.addEventListener('click', closeAccount);
+  accountModalClose && accountModalClose.addEventListener('click', closeAccount);
   accountModal && accountModal.addEventListener('click', (e) => { if (e.target === accountModal) closeAccount(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && accountModal && accountModal.getAttribute('aria-hidden') === 'false') closeAccount(); });
 
-  // Lightbox
+  // Lightbox (gallery)
   const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img'));
   const lightbox = document.getElementById('lightbox');
   if (lightbox && galleryImgs.length) {
@@ -209,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {threshold: 0.12});
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  // gentle parallax/zoom on hero media
+  // gentle parallax on hero media
   const heroMedia = document.querySelector('.hero-media');
   if (heroMedia) {
     let t = 0;
